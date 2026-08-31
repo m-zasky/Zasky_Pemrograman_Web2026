@@ -71,9 +71,10 @@ section h2 {
 }
 
 /* ===== Kartu Statistik (CSS Grid) ===== */
+/* Ubah dari repeat(3, 1fr) menjadi repeat(4, 1fr) */
 main section:nth-of-type(2) {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr); 
     gap: 1rem;
 }
 
