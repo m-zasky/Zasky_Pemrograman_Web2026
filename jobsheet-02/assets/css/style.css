@@ -7,8 +7,9 @@
 
 body {
     font-family: "Segoe UI", Arial, sans-serif;
-    color: #2b2b2b;
-    background-color: #f5f6f8;
+    color: #495057;
+    /*ubah warna teks*/
+    background-color: #f8f9fa;
     line-height: 1.5;
 }
 
@@ -23,7 +24,8 @@ a:hover {
 
 /* ===== Header & Navbar (Flexbox) ===== */
 header {
-    background-color: #1d5b8a;
+    background-color: #d4af37;
+    /*ubah warna header*/
     color: #fff;
     padding: 1rem 1.5rem;
     display: flex;
@@ -64,7 +66,8 @@ section {
 
 section h2 {
     margin-bottom: 1rem;
-    color: #1d5b8a;
+    /* judul section ubah warna */
+    color: #d4af37;
 }
 
 /* ===== Kartu Statistik (CSS Grid) ===== */
@@ -90,7 +93,8 @@ main section:nth-of-type(2) article h3 {
 main section:nth-of-type(2) article p {
     font-size: 1.8rem;
     font-weight: 700;
-    color: #1d5b8a;
+    /* warna statistik */
+    color: #d4af37;
 }
 
 /* ===== Tabel ===== */
@@ -99,14 +103,16 @@ table {
     border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
     text-align: left;
     padding: 0.65rem 0.75rem;
     border-bottom: 1px solid #e2e6ea;
 }
 
 thead {
-    background-color: #1d5b8a;
+    /* ubah warna bg */
+    background-color: #495057;
     color: #fff;
 }
 
@@ -160,7 +166,8 @@ form select {
 }
 
 form button[type="submit"] {
-    background-color: #1d5b8a;
+    /* ubah warna button */
+    background-color: #495057;
     color: #fff;
     border: none;
     padding: 0.6rem 1.5rem;
@@ -170,7 +177,8 @@ form button[type="submit"] {
 }
 
 form button[type="submit"]:hover {
-    background-color: #164869;
+    background-color: #d4af37;
+    /* Saat di-hover berubah jadi kuning emas */
 }
 
 /* ===== Footer ===== */
