@@ -134,13 +134,29 @@ td button {
     font-size: 0.85rem;
 }
 
-td button:first-of-type {
+/* td button:first-of-type {
     background-color: #f0ad4e;
     color: #fff;
 }
 
 td button:last-of-type {
     background-color: #d9534f;
+    color: #fff;
+} */
+
+/* Penambahan Buton detail dan perbaiki class */
+.btn-edit {
+    background-color: #f0ad4e; /* Kuning/Orange */
+    color: #fff;
+}
+
+.btn-detail {
+    background-color: #6c757d; /* Abu-abu */
+    color: #fff;
+}
+
+.btn-hapus {
+    background-color: #d9534f; /* Merah */
     color: #fff;
 }
 
