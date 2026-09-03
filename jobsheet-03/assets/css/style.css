@@ -200,6 +200,13 @@ footer {
 
 /* ===== Responsive Breakpoints ===== */
 
+/* Layar Sangat Lebar (Monitor Besar) */
+@media (min-width: 1400px) {
+    main {
+        max-width: 1300px; /* Diubah dari default 1000px menjadi lebih lebar */
+    }
+}
+
 /* Tablet ke bawah */
 @media (max-width: 768px) {
     main section:nth-of-type(2) {
