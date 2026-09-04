@@ -200,22 +200,22 @@ footer {
 
 /* ===== Responsive Breakpoints ===== */
 
-/* Layar Sangat Lebar (Monitor Besar) */
+/* Layar Sangat Lebar (Monitor Besar) - Poin 1 */
 @media (min-width: 1400px) {
     main {
-        max-width: 1300px; /* Diubah dari default 1000px menjadi lebih lebar */
+        max-width: 1300px;
     }
 }
 
-/* Tablet ke bawah */
-/* @media (max-width: 768px) {
+/* [KODE LAMA - DINONAKTIFKAN] Breakpoint tablet awal dari jobsheet
+@media (max-width: 768px) {
     main section:nth-of-type(2) {
         grid-template-columns: repeat(2, 1fr);
     }
-} */
+}
+*/
 
-/* Latihan Tambahan poin-2 */
-/* Tablet ke bawah */
+/* [KODE BARU] Latihan Tambahan Poin-2: Tablet ke bawah diubah ke 900px */
 @media (max-width: 900px) {
     main section:nth-of-type(2) {
         grid-template-columns: repeat(2, 1fr);
