@@ -9,6 +9,24 @@ function initNavToggle() {
     });
 }
 
+// ===== Helper Function: Hitung & Tampilkan Baris Tabel =====
+function updateCounter() {
+    const table = document.querySelector(".table-responsive table");
+    const counterEl = document.getElementById("table-counter");
+    if (!table || !counterEl) return;
+
+    const allRows = table.querySelectorAll("tbody tr");
+    let visibleCount = 0;
+
+    allRows.forEach(function (row) {
+        if (row.style.display !== "none") {
+            visibleCount++;
+        }
+    });
+
+    counterEl.textContent = "Menampilkan " + visibleCount + " dari " + allRows.length + " buku";
+}
+
 // ===== Konfirmasi hapus (front-end only, belum ke server) =====
 function initHapusConfirm() {
     document.querySelectorAll(".btn-hapus").forEach(function (btn) {
@@ -18,6 +36,7 @@ function initHapusConfirm() {
             const yakin = confirm("Yakin ingin menghapus \"" + nama + "\"?");
             if (yakin && row) {
                 row.remove();
+                updateCounter();
             }
         });
     });
@@ -39,6 +58,7 @@ function initTableFilter() {
 
             row.style.display = teks.includes(keyword) ? "" : "none";
         });
+        updateCounter();
     });
 }
 
@@ -133,4 +153,5 @@ document.addEventListener("DOMContentLoaded", function () {
     initHapusConfirm();
     initTableFilter();
     initValidasiForm();
+    updateCounter();
 });
