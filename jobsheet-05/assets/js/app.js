@@ -33,7 +33,10 @@ function initTableFilter() {
         const keyword = input.value.toLowerCase();
         const rows = table.querySelectorAll("tbody tr");
         rows.forEach(function (row) {
-            const teks = row.textContent.toLowerCase();
+            // UBAH BARIS INI: Ambil hanya <td> pertama (kolom Judul)
+            const kolomJudul = row.querySelector("td");
+            const teks = kolomJudul ? kolomJudul.textContent.toLowerCase() : "";
+
             row.style.display = teks.includes(keyword) ? "" : "none";
         });
     });
