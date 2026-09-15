@@ -78,6 +78,7 @@ function hapusError(input) {
     }
 }
 
+// ===== Validasi form (client-side) =====
 function initValidasiForm() {
     const form = document.getElementById("form-tambah");
     if (!form) return;
@@ -85,41 +86,23 @@ function initValidasiForm() {
     form.addEventListener("submit", function (e) {
         let valid = true;
 
-        // ... (kode validasi judul, pengarang, tahun, dan stok yang sudah ada) ...
+        // --- REFACTOR POIN 5: Array nama field yang wajib diisi ---
+        const fieldWajib = ["judul", "nama", "pengarang", "no_anggota"];
 
-        // --- TAMBAHAN KODE VALIDASI ISBN (POIN 1) ---
-        const isbn = form.querySelector("[name='isbn']");
-        if (isbn && isbn.value.trim() !== "") {
-            // Regex /^[0-9-]+$/ artinya hanya menerima angka 0-9 dan karakter '-'
-            const polaIsbn = /^[0-9-]+$/;
-
-            if (!polaIsbn.test(isbn.value.trim())) {
-                tampilkanError(isbn, "ISBN hanya boleh berisi angka dan tanda hubung.");
-                valid = false;
-            } else {
-                hapusError(isbn);
+        // Loop array untuk memvalidasi tiap field wajib secara otomatis
+        fieldWajib.forEach(function (fieldName) {
+            const input = form.querySelector(`[name='${fieldName}']`);
+            if (input) {
+                if (input.value.trim() === "") {
+                    tampilkanError(input, "Field ini wajib diisi.");
+                    valid = false;
+                } else {
+                    hapusError(input);
+                }
             }
-        } else if (isbn) {
-            hapusError(isbn); // Kosongkan error jika input dikosongkan kembali
-        }
-        // --------------------------------------------
+        });
 
-        const judul = form.querySelector("[name='judul'], [name='nama']");
-        if (judul && judul.value.trim() === "") {
-            tampilkanError(judul, "Field ini wajib diisi.");
-            valid = false;
-        } else if (judul) {
-            hapusError(judul);
-        }
-
-        const pengarang = form.querySelector("[name='pengarang']");
-        if (pengarang && pengarang.value.trim() === "") {
-            tampilkanError(pengarang, "Pengarang wajib diisi.");
-            valid = false;
-        } else if (pengarang) {
-            hapusError(pengarang);
-        }
-
+        // Validasi khusus: Tahun Terbit
         const tahun = form.querySelector("[name='tahun']");
         if (tahun) {
             const nilai = parseInt(tahun.value, 10);
@@ -131,6 +114,7 @@ function initValidasiForm() {
             }
         }
 
+        // Validasi khusus: Stok
         const stok = form.querySelector("[name='stok']");
         if (stok) {
             const nilai = parseInt(stok.value, 10);
@@ -140,6 +124,20 @@ function initValidasiForm() {
             } else {
                 hapusError(stok);
             }
+        }
+
+        // Validasi khusus: ISBN (Poin 1)
+        const isbn = form.querySelector("[name='isbn']");
+        if (isbn && isbn.value.trim() !== "") {
+            const polaIsbn = /^[0-9-]+$/;
+            if (!polaIsbn.test(isbn.value.trim())) {
+                tampilkanError(isbn, "ISBN hanya boleh berisi angka dan tanda hubung.");
+                valid = false;
+            } else {
+                hapusError(isbn);
+            }
+        } else if (isbn) {
+            hapusError(isbn);
         }
 
         if (!valid) {
