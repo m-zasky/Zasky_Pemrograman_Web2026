@@ -130,7 +130,7 @@ async function muatDataGenerik(urlJson, keys) {
     tbody.innerHTML = "";
 
     try {
-        await new Promise((resolve) => setTimeout(resolve, 600));
+        await new Promise((resolve) => setTimeout(resolve, 3000));
 
         const res = await fetch(urlJson);
         if (!res.ok) {
