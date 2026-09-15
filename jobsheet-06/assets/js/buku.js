@@ -1,6 +1,6 @@
 function muatDaftarBuku() {
     // Memanggil fungsi generik dengan JSON buku dan daftar kunci kolomnya
-    muatDataGenerik("../data/buku.json", ["judul", "pengarang", "tahun", "stok"]);
+    muatDataGenerik("../data/buku.json", ["judul", "pengarang", "tahun", "stok", "kategori"]);
 }
 
 document.addEventListener("DOMContentLoaded", function () {
