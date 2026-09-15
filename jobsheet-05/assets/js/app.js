@@ -62,6 +62,25 @@ function initValidasiForm() {
     form.addEventListener("submit", function (e) {
         let valid = true;
 
+        // ... (kode validasi judul, pengarang, tahun, dan stok yang sudah ada) ...
+
+        // --- TAMBAHAN KODE VALIDASI ISBN (POIN 1) ---
+        const isbn = form.querySelector("[name='isbn']");
+        if (isbn && isbn.value.trim() !== "") {
+            // Regex /^[0-9-]+$/ artinya hanya menerima angka 0-9 dan karakter '-'
+            const polaIsbn = /^[0-9-]+$/;
+
+            if (!polaIsbn.test(isbn.value.trim())) {
+                tampilkanError(isbn, "ISBN hanya boleh berisi angka dan tanda hubung.");
+                valid = false;
+            } else {
+                hapusError(isbn);
+            }
+        } else if (isbn) {
+            hapusError(isbn); // Kosongkan error jika input dikosongkan kembali
+        }
+        // --------------------------------------------
+
         const judul = form.querySelector("[name='judul'], [name='nama']");
         if (judul && judul.value.trim() === "") {
             tampilkanError(judul, "Field ini wajib diisi.");
