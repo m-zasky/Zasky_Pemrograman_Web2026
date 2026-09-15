@@ -99,7 +99,8 @@ table {
     border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
     text-align: left;
     padding: 0.65rem 0.75rem;
     border-bottom: 1px solid #e2e6ea;
@@ -236,15 +237,24 @@ footer {
         display: block;
     }
 
+    /* UBAH BAGIAN INI */
     header nav {
-        display: none;
         width: 100%;
         order: 3;
-        margin-top: 1rem;
+
+        /* Mengganti display:none dengan transisi max-height & opacity */
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease;
     }
 
+    /* UBAH BAGIAN INI */
     header nav.nav-open {
-        display: block;
+        max-height: 200px;
+        /* Nilai cukup tinggi agar semua menu muat */
+        opacity: 1;
+        margin-top: 1rem;
     }
 
     header nav ul {
