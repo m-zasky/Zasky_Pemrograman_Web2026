@@ -38,4 +38,14 @@ async function muatDaftarBuku() {
     }
 }
 
-document.addEventListener("DOMContentLoaded", muatDaftarBuku);
+// document.addEventListener("DOMContentLoaded", muatDaftarBuku);
+document.addEventListener("DOMContentLoaded", function () {
+    // 1. Memuat data saat pertama kali halaman dibuka
+    muatDaftarBuku();
+
+    // 2. Kode JS untuk menangkap klik tombol "Muat Ulang"
+    const btnReload = document.getElementById("btn-reload");
+    if (btnReload) {
+        btnReload.addEventListener("click", muatDaftarBuku);
+    }
+});
