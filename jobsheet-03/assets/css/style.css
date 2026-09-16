@@ -394,3 +394,15 @@ footer {
         grid-template-columns: 1fr;
     }
 }
+
+/* ===== Style Elemen Pre & Code (Scroll Test) ===== */
+pre {
+    background-color: var(--bg-dark);
+    color: var(--accent-gold);
+    padding: 1.2rem;
+    border-radius: 6px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    border-left: 4px solid var(--accent-gold);
+}
