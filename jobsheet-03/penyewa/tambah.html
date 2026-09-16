@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sistem Informasi Rental Outdoor | Tambah Penyewa</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body>
+    <header>
+        <div class="header-banner">
+            <h1>Sistem Informasi Rental Outdoor</h1>
+            <p class="subtitle">Tambah Data Penyewa Baru</p>
+        </div>
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        <label for="nav-toggle" class="nav-toggle-label">&#9776;</label>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Beranda</a></li>
+                <li><a href="../alat/list.html">Data Alat</a></li>
+                <li><a href="../alat/tambah.html">Tambah Alat</a></li>
+                <li><a href="list.html">Data Penyewa</a></li>
+                <li><a href="tambah.html" class="active">Tambah Penyewa</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="card-container">
+            <h2 class="page-title">Formulir Tambah Penyewa</h2>
+            <div class="divider"></div>
+
+            <form action="#" method="POST">
+                <div class="form-group">
+                    <label for="kode_penyewa">ID Penyewa:</label>
+                    <input type="text" id="kode_penyewa" class="form-control" placeholder="Contoh: PLG003" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="nama_lengkap">Nama Lengkap:</label>
+                    <input type="text" id="nama_lengkap" class="form-control" placeholder="Contoh: Budi Santoso"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="no_hp">No. Telepon / WhatsApp:</label>
+                    <input type="text" id="no_hp" class="form-control" placeholder="Contoh: 08123456789" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="alamat">Alamat Lengkap:</label>
+                    <textarea id="alamat" class="form-control" placeholder="Masukkan alamat lengkap penyewa"
+                        required></textarea>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary">Simpan Data</button>
+                    <button type="reset" class="btn btn-secondary">Batal</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Sistem Informasi Rental Outdoor</p>
+    </footer>
+</body>
+
+</html>

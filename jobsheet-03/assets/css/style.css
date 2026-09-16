@@ -1,192 +1,113 @@
-/* ===== Reset & Base ===== */
+/* ===== Reset & Variable Warna (Wajib Ada di Paling Atas) ===== */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
+:root {
+    --bg-dark: #121212;
+    --bg-nav: #1e1e24;
+    --bg-body: #f4f4f7;
+    --bg-card: #ffffff;
+    --bg-stat: #f9f9fb;
+    --accent-gold: #d4af37;
+    --accent-gold-hover: #b89628;
+    --text-dark: #1e1e1e;
+    --text-light: #ffffff;
+    --text-muted: #666666;
+    --border-color: #e2e8f0;
+    --btn-edit: #f0ad4e;
+    --btn-edit-hover: #ec971f;
+    --btn-hapus: #d9534f;
+    --btn-hapus-hover: #c9302c;
+    --btn-gray: #4a4a4a;
+}
+
 body {
-    font-family: "Segoe UI", Arial, sans-serif;
-    color: #2b2b2b;
-    background-color: #f5f6f8;
-    line-height: 1.5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-dark);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-a {
-    color: #1d5b8a;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-/* ===== Header & Navbar (Flexbox) ===== */
+/* ===== Header Section (Mentok ke Pojok Kiri) ===== */
 header {
-    background-color: #1d5b8a;
-    color: #fff;
-    padding: 1rem 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    position: relative;
 }
 
-header h1 {
-    font-size: 1.4rem;
+.header-banner {
+    padding: 1.8rem 2rem 1.2rem;
+    /* Jarak dari pinggir kiri layar */
+    width: 100%;
+    max-width: none;
+    /* Hapus pembatas lebar */
+    margin: 0;
+    text-align: left;
 }
 
-header nav ul {
-    list-style: none;
-    display: flex;
-    gap: 1.25rem;
-}
-
-header nav a {
-    color: #fff;
-    font-weight: 500;
-}
-
-/* ===== Main Layout ===== */
-main {
-    max-width: 1000px;
-    margin: 2rem auto;
-    padding: 0 1.5rem;
-}
-
-section {
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-}
-
-section h2 {
-    margin-bottom: 1rem;
-    color: #1d5b8a;
-}
-
-/* ===== Kartu Statistik (CSS Grid) ===== */
-main section:nth-of-type(2) {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-}
-
-main section:nth-of-type(2) article {
-    background-color: #eef4fa;
-    border-radius: 8px;
-    padding: 1.25rem;
-    text-align: center;
-}
-
-main section:nth-of-type(2) article h3 {
-    font-size: 0.95rem;
-    color: #55677a;
-    margin-bottom: 0.5rem;
-}
-
-main section:nth-of-type(2) article p {
+.header-banner h1 {
     font-size: 1.8rem;
     font-weight: 700;
-    color: #1d5b8a;
+    color: #ffffff;
 }
 
-/* ===== Tabel ===== */
-table {
-    width: 100%;
-    border-collapse: collapse;
+.header-banner .subtitle {
+    font-size: 0.95rem;
+    color: #cccccc;
 }
 
-th, td {
-    text-align: left;
-    padding: 0.65rem 0.75rem;
-    border-bottom: 1px solid #e2e6ea;
+/* ===== Navigation Bar (Menu Rata Tengah) ===== */
+nav {
+    background-color: var(--bg-nav);
+    border-top: 1px solid #2a2a30;
+    border-bottom: 2px solid var(--accent-gold);
 }
 
-thead {
-    background-color: #1d5b8a;
-    color: #fff;
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    /* Menu navigasi ditengahkan */
+    max-width: 1050px;
+    width: 90%;
+    margin: 0 auto;
+    gap: 0.5rem;
+    padding: 0.5rem 1.5rem;
 }
 
-tbody tr:nth-child(even) {
-    background-color: #f7f9fb;
-}
-
-tbody tr:hover {
-    background-color: #eef4fa;
-}
-
-td button {
-    padding: 0.35rem 0.7rem;
-    margin-right: 0.35rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.85rem;
-}
-
-td button:first-of-type {
-    background-color: #f0ad4e;
-    color: #fff;
-}
-
-td button:last-of-type {
-    background-color: #d9534f;
-    color: #fff;
-}
-
-/* ===== Form ===== */
-form p {
-    margin-bottom: 1rem;
-}
-
-form label {
-    display: block;
-    margin-bottom: 0.35rem;
-    font-weight: 600;
-    color: #444;
-}
-
-form input,
-form select {
-    width: 100%;
-    max-width: 400px;
-    padding: 0.55rem 0.7rem;
-    border: 1px solid #cdd4da;
-    border-radius: 4px;
-    font-size: 1rem;
-}
-
-form button[type="submit"] {
-    background-color: #1d5b8a;
-    color: #fff;
-    border: none;
-    padding: 0.6rem 1.5rem;
-    border-radius: 4px;
-    font-size: 1rem;
-    cursor: pointer;
-}
-
-form button[type="submit"]:hover {
-    background-color: #164869;
-}
-
-/* ===== Footer ===== */
-footer {
-    text-align: center;
-    padding: 1.25rem;
-    color: #7a8794;
+/* Menu Normal (Tanpa Latar Kuning) */
+nav a {
+    color: #e0e0e0;
+    text-decoration: none;
+    font-weight: 500;
     font-size: 0.9rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    transition: all 0.2s ease-in-out;
 }
 
-/* ===== Tabel Responsif ===== */
-.table-responsive {
-    overflow-x: auto;
+/* Hover Teks Emas Tanpa Background */
+nav a:hover {
+    color: var(--accent-gold);
+    background-color: transparent;
 }
 
-/* ===== Hamburger Menu (checkbox hack) ===== */
+/* Menu Aktif: Teks Emas + Garis Bawah (Bukan Blok Kuning) */
+nav a.active {
+    background-color: transparent !important;
+    color: var(--accent-gold) !important;
+    font-weight: 700;
+    border-bottom: 2px solid var(--accent-gold);
+    border-radius: 0;
+}
+
+/* ===== Hamburger Menu Setup ===== */
 .nav-toggle {
     display: none;
 }
@@ -194,66 +115,282 @@ footer {
 .nav-toggle-label {
     display: none;
     font-size: 1.6rem;
-    color: #fff;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 0.5rem 1.5rem;
+    background-color: var(--bg-nav);
+    text-align: right;
+    border-bottom: 2px solid var(--accent-gold);
+}
+
+/* ===== Main Container ===== */
+main {
+    flex: 1;
+    max-width: 1050px;
+    width: 90%;
+    margin: 2rem auto;
+}
+
+.card-container {
+    background-color: var(--bg-card);
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e8e8e8;
+    margin-bottom: 1.5rem;
+}
+
+.page-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--bg-dark);
+    margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+.divider {
+    height: 2px;
+    background-color: var(--bg-dark);
+    margin: 1.2rem 0 1.5rem;
+}
+
+.section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--bg-dark);
+    margin-bottom: 1rem;
+}
+
+/* ===== Kartu Statistik ===== */
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1rem;
+}
+
+.stat-card {
+    background-color: var(--bg-stat);
+    border: 1px solid var(--border-color);
+    border-left: 5px solid var(--accent-gold);
+    border-radius: 6px;
+    padding: 1.25rem 1.5rem;
+}
+
+.stat-card h3 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--bg-dark);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.stat-card .stat-number {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--bg-dark);
+    line-height: 1;
+}
+
+/* ===== Tabel Styling ===== */
+.table-responsive {
+    overflow-x: auto;
+    margin-top: 1rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+table thead tr {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+}
+
+table th {
+    padding: 0.85rem 1rem;
+    text-align: left;
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--accent-gold);
+}
+
+table td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    color: #333333;
+    vertical-align: middle;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+table tbody tr:hover {
+    background-color: #f0f3f6;
+}
+
+/* ===== Tombol Aksi di Tabel (Edit & Hapus) ===== */
+td .btn-action {
+    padding: 0.35rem 0.75rem;
+    margin-right: 0.35rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #ffffff;
+    transition: background-color 0.2s;
+}
+
+td .btn-edit {
+    background-color: var(--btn-edit);
+}
+
+td .btn-edit:hover {
+    background-color: var(--btn-edit-hover);
+}
+
+td .btn-hapus {
+    background-color: var(--btn-hapus);
+}
+
+td .btn-hapus:hover {
+    background-color: var(--btn-hapus-hover);
+}
+
+/* ===== Form Styling ===== */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    margin-top: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--bg-dark);
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.65rem 0.9rem;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    background-color: #fafafa;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.25);
+    background-color: #ffffff;
+}
+
+.radio-group {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.radio-group label {
+    font-weight: 400;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.button-group {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.btn {
+    padding: 0.65rem 1.6rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    font-weight: 700;
     cursor: pointer;
 }
 
+.btn-primary {
+    background-color: var(--accent-gold);
+    color: var(--bg-dark);
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-gold-hover);
+}
+
+.btn-secondary {
+    background-color: var(--btn-gray);
+    color: var(--text-light);
+}
+
+/* ===== Footer ===== */
+footer {
+    background-color: var(--bg-dark);
+    color: #aaaaaa;
+    text-align: center;
+    padding: 1.2rem;
+    font-size: 0.85rem;
+    border-top: 3px solid var(--accent-gold);
+    margin-top: auto;
+}
+
 /* ===== Responsive Breakpoints ===== */
-
-/* Layar Sangat Lebar (Monitor Besar) - Poin 1 */
-@media (min-width: 1400px) {
-    main {
-        max-width: 1300px;
-    }
-}
-
-/* [KODE LAMA - DINONAKTIFKAN] Breakpoint tablet awal dari jobsheet
 @media (max-width: 768px) {
-    main section:nth-of-type(2) {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-*/
-
-/* [KODE BARU] Latihan Tambahan Poin-2: Tablet ke bawah diubah ke 900px */
-@media (max-width: 900px) {
-    main section:nth-of-type(2) {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-/* Mobile */
-@media (max-width: 480px) {
-    header {
-        position: relative;
-    }
-
     .nav-toggle-label {
         display: block;
     }
 
-    header nav {
+    nav {
         display: none;
         width: 100%;
-        order: 3;
-        margin-top: 1rem;
     }
 
-    .nav-toggle:checked ~ nav {
+    .nav-toggle:checked~nav {
         display: block;
     }
 
-    header nav ul {
+    nav ul {
         flex-direction: column;
-        gap: 0.75rem;
+        gap: 0;
+        padding: 0;
     }
 
-    main section:nth-of-type(2) {
+    nav a {
+        display: block;
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid #2a2a30;
+        border-radius: 0;
+    }
+
+    .card-container {
+        padding: 1.25rem;
+    }
+
+    .stat-grid {
         grid-template-columns: 1fr;
-    }
-
-    form input,
-    form select {
-        max-width: 100%;
     }
 }

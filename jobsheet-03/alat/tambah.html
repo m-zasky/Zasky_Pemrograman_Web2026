@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sistem Informasi Rental Outdoor | Tambah Alat</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="header-banner">
+            <h1>Sistem Informasi Rental Outdoor</h1>
+            <p class="subtitle">Tambah Data Alat Outdoor</p>
+        </div>
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        <label for="nav-toggle" class="nav-toggle-label">&#9776;</label>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Beranda</a></li>
+                <li><a href="list.html">Data Alat</a></li>
+                <li><a href="tambah.html" class="active">Tambah Alat</a></li>
+                <li><a href="../penyewa/list.html">Data Penyewa</a></li>
+                <li><a href="../penyewa/tambah.html">Tambah Penyewa</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="card-container">
+            <h2 class="page-title">Formulir Tambah Alat Outdoor</h2>
+            <div class="divider"></div>
+
+            <form action="#" method="POST">
+                <div class="form-group">
+                    <label for="kode_alat">Kode Alat:</label>
+                    <input type="text" id="kode_alat" class="form-control" placeholder="Contoh: ALT006" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="nama_alat">Nama Alat:</label>
+                    <input type="text" id="nama_alat" class="form-control" placeholder="Contoh: Tenda Dome 2 Person" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="kategori">Kategori:</label>
+                    <select id="kategori" class="form-control" required>
+                        <option value="">-- Pilih Kategori --</option>
+                        <option value="tenda">Tenda</option>
+                        <option value="carrier">Tas / Carrier</option>
+                        <option value="masak">Alat Masak</option>
+                        <option value="tidur">Perlengkapan Tidur</option>
+                        <option value="penerangan">Penerangan</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="tarif">Tarif / Hari (RP):</label>
+                    <input type="number" id="tarif" class="form-control" placeholder="Contoh: 35000" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="stok">Stok Alat:</label>
+                    <input type="number" id="stok" class="form-control" placeholder="Contoh: 5" min="0" required>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary">Simpan Data</button>
+                    <button type="reset" class="btn btn-secondary">Batal</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Sistem Informasi Rental Outdoor</p>
+    </footer>
+</body>
+</html>

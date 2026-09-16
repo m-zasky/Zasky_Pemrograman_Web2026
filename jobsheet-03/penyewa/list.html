@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sistem Informasi Rental Outdoor | Data Penyewa</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="header-banner">
+            <h1>Sistem Informasi Rental Outdoor</h1>
+            <p class="subtitle">Data Penyewa / Member Rental</p>
+        </div>
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        <label for="nav-toggle" class="nav-toggle-label">&#9776;</label>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Beranda</a></li>
+                <li><a href="../alat/list.html">Data Alat</a></li>
+                <li><a href="../alat/tambah.html">Tambah Alat</a></li>
+                <li><a href="list.html" class="active">Data Penyewa</a></li>
+                <li><a href="tambah.html">Tambah Penyewa</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="card-container">
+            <h2 class="page-title">Daftar Penyewa Rental Outdoor</h2>
+            <div class="divider"></div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Kode Penyewa</th>
+                            <th>Nama Penyewa</th>
+                            <th>No WhatsApp</th>
+                            <th>Alamat</th>
+                            <th>Status Member</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>PL001</td>
+                            <td>Farelyan Hilmy</td>
+                            <td>0812xxxx</td>
+                            <td>Kediri</td>
+                            <td>Member VIP</td>
+                            <td>
+                                <button type="button" class="btn-action btn-edit">Edit</button>
+                                <button type="button" class="btn-action btn-hapus">Hapus</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>PL002</td>
+                            <td>Fakhri Fawaz</td>
+                            <td>0813xxxx</td>
+                            <td>Pasuruan</td>
+                            <td>Regular</td>
+                            <td>
+                                <button type="button" class="btn-action btn-edit">Edit</button>
+                                <button type="button" class="btn-action btn-hapus">Hapus</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Sistem Informasi Rental Outdoor</p>
+    </footer>
+</body>
+</html>
