@@ -3,6 +3,9 @@ require_once '../includes/koneksi.php';
 include '../includes/header.php'; 
 
 // Logika Pencarian Server-Side (ILIKE)
+// Poin 3: Query Pencarian Server-Side menggunakan ILIKE
+// Menggunakan ILIKE agar pencarian bersifat case-insensitive (tidak membedakan huruf besar/kecil)
+// pada database PostgreSQL, dihubungkan secara dinamis dengan parameter input dari form pencarian HTML.
 $keyword = $_GET['q'] ?? '';
 if (!empty($keyword)) {
     $sql = "SELECT * FROM alat WHERE nama_alat ILIKE :keyword OR kategori ILIKE :keyword OR kode_alat ILIKE :keyword ORDER BY id DESC";
