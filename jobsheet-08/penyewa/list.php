@@ -1,4 +1,15 @@
-<?php include '../includes/header.php'; ?>
+<?php 
+require_once __DIR__ . '/../includes/koneksi.php';
+include __DIR__ . '/../includes/header.php'; 
+
+// Ambil data penyewa langsung dari database PostgreSQL
+try {
+    $stmt = $pdo->query("SELECT * FROM penyewa ORDER BY id DESC");
+    $data_penyewa = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    $data_penyewa = [];
+}
+?>
 
 <div class="card-container">
     <h2 class="page-title">Daftar Penyewa Rental Outdoor</h2>
@@ -27,18 +38,18 @@
                 </tr>
             </thead>
             <tbody>
-                <?php if (!empty($_SESSION['penyewa'])): ?>
-                    <?php foreach ($_SESSION['penyewa'] as $index => $item): ?>
+                <?php if (!empty($data_penyewa)): ?>
+                    <?php foreach ($data_penyewa as $index => $item): ?>
                         <tr>
                             <td><?= $index + 1; ?></td>
-                            <td><?= htmlspecialchars($item['kode']); ?></td>
-                            <td><?= htmlspecialchars($item['nama']); ?></td>
-                            <td><?= htmlspecialchars($item['hp']); ?></td>
+                            <td><?= htmlspecialchars($item['kode_penyewa']); ?></td>
+                            <td><?= htmlspecialchars($item['nama_lengkap']); ?></td>
+                            <td><?= htmlspecialchars($item['no_hp']); ?></td>
                             <td><?= htmlspecialchars($item['alamat']); ?></td>
-                            <td><?= htmlspecialchars($item['status']); ?></td>
+                            <td><?= htmlspecialchars($item['status_member']); ?></td>
                             <td>
-                                <button type="button" class="btn-action btn-edit">Edit</button>
-                                <button type="button" class="btn-action btn-hapus">Hapus</button>
+                                <a href="edit.php?id=<?= $item['id']; ?>" class="btn-action btn-edit">Edit</a>
+                                <a href="hapus.php?id=<?= $item['id']; ?>" class="btn-action btn-hapus" onclick="return confirm('Yakin ingin menghapus?')">Hapus</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -52,4 +63,4 @@
     </div>
 </div>
 
-<?php include '../includes/footer.php'; ?>
+<?php include __DIR__ . '/../includes/footer.php'; ?>
