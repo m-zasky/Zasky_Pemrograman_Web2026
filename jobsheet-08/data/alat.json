@@ -1,0 +1,23 @@
+[
+    {
+        "kode_alat": "ALT001",
+        "nama_alat": "Tenda Dome Eiger",
+        "kategori": "Tenda",
+        "tarif": 35000,
+        "stok": 5
+    },
+    {
+        "kode_alat": "ALT002",
+        "nama_alat": "Carrier Consina 60L",
+        "kategori": "Tas Carrier",
+        "tarif": 25000,
+        "stok": 8
+    },
+    {
+        "kode_alat": "ALT003",
+        "nama_alat": "Sleeping Bag Polar",
+        "kategori": "Perlengkapan Tidur",
+        "tarif": 10000,
+        "stok": 15
+    }
+]
