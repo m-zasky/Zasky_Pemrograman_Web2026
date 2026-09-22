@@ -1,28 +1,32 @@
-<?php
-$page_title = "Beranda";
-include __DIR__ . '/includes/header.php';
+<?php 
+include __DIR__ . '/includes/header.php'; 
 
-$totalBuku = count($_SESSION['buku'] ?? []);
-$totalAnggota = count($_SESSION['anggota'] ?? []);
+// Menghitung data dari session
+$totalAlat = count($_SESSION['alat'] ?? []);
+$totalPenyewa = count($_SESSION['penyewa'] ?? []);
 ?>
-        <section>
-            <h2>Selamat Datang di Sistem Perpustakaan Mini</h2>
-            <p>Aplikasi sederhana untuk mengelola data buku dan anggota perpustakaan.</p>
-        </section>
 
-        <section>
-            <h2>Ringkasan</h2>
-            <article>
-                <h3>Total Buku</h3>
-                <p><?php echo $totalBuku; ?></p>
-            </article>
-            <article>
-                <h3>Total Anggota</h3>
-                <p><?php echo $totalAnggota; ?></p>
-            </article>
-            <article>
-                <h3>Sedang Dipinjam</h3>
-                <p>0</p>
-            </article>
-        </section>
+<div class="card-container">
+    <h2 class="page-title">Dashboard</h2>
+    <p class="page-subtitle">Selamat Datang di Web Pengelola Data Persewaan Alat Outdoor</p>
+
+    <div class="divider"></div>
+
+    <h3 class="section-title">Statistik Rental</h3>
+    <div class="stat-grid">
+        <div class="stat-card">
+            <h3>Total Alat</h3>
+            <div class="stat-number"><?= $totalAlat; ?></div>
+        </div>
+        <div class="stat-card">
+            <h3>Total Penyewa</h3>
+            <div class="stat-number"><?= $totalPenyewa; ?></div>
+        </div>
+        <div class="stat-card">
+            <h3>Alat Sedang Disewa</h3>
+            <div class="stat-number">0</div>
+        </div>
+    </div>
+</div>
+
 <?php include __DIR__ . '/includes/footer.php'; ?>
