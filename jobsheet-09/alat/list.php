@@ -6,7 +6,7 @@ require __DIR__ . '/../includes/koneksi.php';
 $flash = $_SESSION['flash'] ?? null;
 unset($_SESSION['flash']);
 
-$perPage = 5;
+$perPage = 10;
 $page = max(1, (int) ($_GET['page'] ?? 1));
 $offset = ($page - 1) * $perPage;
 $keyword = trim($_GET['q'] ?? '');
