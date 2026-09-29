@@ -28,4 +28,4 @@ Repositori ini disusun secara modular berdasarkan modul pembelajaran (*jobsheet*
 3. **Pengalaman Pengguna:** Dilengkapi dengan fitur pencarian data lanjutan (*multi-column search*), pembagian halaman (*pagination*), serta konfirmasi interaktif berbasis JavaScript.
 
 ---
-*Dibuat oleh **M. Zasky** — Mahasiswa Mata Kuliah Pemrograman Web 2026*
+*Dibuat oleh **M. Zasky** — Mahasiswa Jurusan Teknologi Informasi*
