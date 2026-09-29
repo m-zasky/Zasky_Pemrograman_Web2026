@@ -6,18 +6,27 @@ require __DIR__ . '/../includes/koneksi.php';
 $flash = $_SESSION['flash'] ?? null;
 unset($_SESSION['flash']);
 
+// PENAMBAHAN POIN-2: Mengatur jumlah maksimal baris data per halaman menjadi 10
 $perPage = 10;
 $page = max(1, (int) ($_GET['page'] ?? 1));
 $offset = ($page - 1) * $perPage;
 $keyword = trim($_GET['q'] ?? '');
 
 if ($keyword !== '') {
-    $hitung = $pdo->prepare("SELECT COUNT(*) FROM alat WHERE nama_alat ILIKE :kw");
-    $hitung->execute(['kw' => '%' . $keyword . '%']);
+    // ==============================================================================
+    // PENAMBAHAN POIN-3: Pencarian multi-kolom menggunakan operator OR
+    // Penjelasan: Data akan dicari apakah kata kunci cocok pada kolom "nama_alat" ATAU "kategori".
+    // ==============================================================================
+    $hitung = $pdo->prepare("SELECT COUNT(*) FROM alat WHERE nama_alat ILIKE :kw1 OR kategori ILIKE :kw2");
+    $hitung->execute([
+        'kw1' => '%' . $keyword . '%',
+        'kw2' => '%' . $keyword . '%'
+    ]);
     $totalRows = $hitung->fetchColumn();
 
-    $stmt = $pdo->prepare("SELECT * FROM alat WHERE nama_alat ILIKE :kw ORDER BY id DESC LIMIT :limit OFFSET :offset");
-    $stmt->bindValue('kw', '%' . $keyword . '%');
+    $stmt = $pdo->prepare("SELECT * FROM alat WHERE nama_alat ILIKE :kw1 OR kategori ILIKE :kw2 ORDER BY id DESC LIMIT :limit OFFSET :offset");
+    $stmt->bindValue('kw1', '%' . $keyword . '%');
+    $stmt->bindValue('kw2', '%' . $keyword . '%');
 } else {
     $totalRows = $pdo->query("SELECT COUNT(*) FROM alat")->fetchColumn();
     $stmt = $pdo->prepare("SELECT * FROM alat ORDER BY id DESC LIMIT :limit OFFSET :offset");
@@ -45,7 +54,7 @@ $totalPages = max(1, (int) ceil($totalRows / $perPage));
 
     <div class="search-box">
         <form method="get" action="list.php" style="flex-direction: row; align-items: center; gap: 10px; margin-top: 0;">
-            <input type="text" id="search-input" name="q" value="<?php echo htmlspecialchars($keyword); ?>" placeholder="Cari nama alat..." style="width: auto; flex: 1; max-width: 320px; padding: 0.5rem 0.75rem;">
+            <input type="text" id="search-input" name="q" value="<?php echo htmlspecialchars($keyword); ?>" placeholder="Cari nama alat atau kategori..." style="width: auto; flex: 1; max-width: 320px; padding: 0.5rem 0.75rem;">
             <button type="submit" class="btn btn-primary" style="padding: 0.5rem 1rem;">Cari</button>
             <?php if($keyword !== ''): ?>
                 <a href="list.php" class="btn btn-secondary" style="padding: 0.5rem 1rem; text-decoration:none;">Reset</a>
@@ -58,6 +67,7 @@ $totalPages = max(1, (int) ceil($totalRows / $perPage));
             <thead>
                 <tr>
                     <th>Nama Alat</th>
+                    <th>Kategori</th>
                     <th>Harga Sewa</th>
                     <th>Stok</th>
                     <th>Aksi</th>
@@ -66,12 +76,13 @@ $totalPages = max(1, (int) ceil($totalRows / $perPage));
             <tbody>
                 <?php if (empty($daftarAlat)): ?>
                 <tr>
-                    <td colspan="4" style="text-align: center;">Tidak ada data alat yang cocok.</td>
+                    <td colspan="5" style="text-align: center;">Tidak ada data alat yang cocok.</td>
                 </tr>
                 <?php else: ?>
                     <?php foreach ($daftarAlat as $alat): ?>
                     <tr>
                         <td><?php echo htmlspecialchars($alat['nama_alat']); ?></td>
+                        <td><?php echo htmlspecialchars($alat['kategori']); ?></td>
                         <td>Rp <?php echo number_format($alat['tarif'], 0, ',', '.'); ?></td>
                         <td><?php echo htmlspecialchars($alat['stok']); ?></td>
                         <td style="display: flex; gap: 5px; align-items: center;">
