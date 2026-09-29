@@ -1,10 +1,10 @@
 {
   "builds": [
-    { "src": "index.php", "use": "vercel-php" },
-    { "src": "alat/*.php", "use": "vercel-php" },
-    { "src": "penyewa/*.php", "use": "vercel-php" }
+    { "src": "router.php", "use": "vercel-php" }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "/$1" }
+    { "src": "/(.*\\.php)", "dest": "/router.php" },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/router.php" }
   ]
 }
