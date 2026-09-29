@@ -6,19 +6,39 @@ if ($path === '/' || $path === '') {
     $file = __DIR__ . '/index.php';
 } else {
     $file = __DIR__ . $path;
-    // Jika mengarah ke folder, otomatis cari index.php di dalamnya
     if (is_dir($file)) {
         $file = rtrim($file, '/') . '/index.php';
     }
 }
 
-// Eksekusi file jika ada dan berekstensi .php
-if (file_exists($file) && pathinfo($file, PATHINFO_EXTENSION) === 'php') {
-    // Menyesuaikan posisi folder agar include/require lokal tidak error
-    chdir(dirname($file));
-    require basename($file);
+// Cek apakah file benar-benar ada di dalam folder
+if (file_exists($file)) {
+    $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+    
+    // Jika file PHP, eksekusi seperti biasa
+    if ($ext === 'php') {
+        chdir(dirname($file));
+        require basename($file);
+    } else {
+        // JIKA FILE STATIS (CSS, JS, Gambar), paksa PHP yang menyajikannya!
+        $mime_types = [
+            'css'  => 'text/css',
+            'js'   => 'application/javascript',
+            'jpg'  => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+            'png'  => 'image/png',
+            'gif'  => 'image/gif',
+            'svg'  => 'image/svg+xml'
+        ];
+        
+        if (array_key_exists($ext, $mime_types)) {
+            header('Content-Type: ' . $mime_types[$ext]);
+        }
+        // Keluarkan isi file CSS/Gambar ke browser
+        readfile($file);
+    }
 } else {
     http_response_code(404);
-    echo "404 - Halaman tidak ditemukan.";
+    echo "404 - File tidak ditemukan.";
 }
 ?>
