@@ -32,7 +32,14 @@ if (!$alat) {
         </div>
     <?php endif; ?>
 
-    <form method="post" action="proses_edit.php">
+    <!-- ============================================================================== -->
+    <!-- PENAMBAHAN POIN-1: Menambahkan atribut onsubmit untuk konfirmasi sebelum Update -->
+    <!-- Penjelasan: Atribut ini memunculkan dialog pop-up konfirmasi di browser saat -->
+    <!-- tombol "Update Data" ditekan, untuk mencegah kesalahan input yang tidak disengaja. -->
+    <!-- ============================================================================== -->
+    <form method="post" action="proses_edit.php" onsubmit="return confirm('Apakah Anda yakin ingin memperbarui data alat ini?');">
+        
+        <!-- Input tersembunyi untuk menyimpan ID data yang diedit -->
         <input type="hidden" name="id" value="<?php echo $alat['id']; ?>">
         
         <div class="form-group" style="margin-bottom: 15px;">
