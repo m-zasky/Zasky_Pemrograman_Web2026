@@ -3,6 +3,9 @@
     { "src": "router.php", "use": "vercel-php" }
   ],
   "routes": [
+    { "src": "/(.*\\.css)", "dest": "/$1" },
+    { "src": "/(.*\\.js)", "dest": "/$1" },
+    { "src": "/(assets/.*)", "dest": "/$1" },
     { "src": "/(.*\\.php)", "dest": "/router.php" },
     { "handle": "filesystem" },
     { "src": "/(.*)", "dest": "/router.php" }
