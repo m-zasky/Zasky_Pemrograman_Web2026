@@ -43,10 +43,8 @@ header {
 
 .header-banner {
     padding: 1.8rem 2rem 1.2rem;
-    /* Jarak dari pinggir kiri layar */
     width: 100%;
     max-width: none;
-    /* Hapus pembatas lebar */
     margin: 0;
     text-align: left;
 }
@@ -73,7 +71,6 @@ nav ul {
     list-style: none;
     display: flex;
     justify-content: center;
-    /* Menu navigasi ditengahkan */
     max-width: 1050px;
     width: 90%;
     margin: 0 auto;
@@ -81,7 +78,6 @@ nav ul {
     padding: 0.5rem 1.5rem;
 }
 
-/* Menu Normal (Tanpa Latar Kuning) */
 nav a {
     color: #e0e0e0;
     text-decoration: none;
@@ -92,13 +88,11 @@ nav a {
     transition: all 0.2s ease-in-out;
 }
 
-/* Hover Teks Emas Tanpa Background */
 nav a:hover {
     color: var(--accent-gold);
     background-color: transparent;
 }
 
-/* Menu Aktif: Teks Emas + Garis Bawah (Bukan Blok Kuning) */
 nav a.active {
     background-color: transparent !important;
     color: var(--accent-gold) !important;
@@ -107,20 +101,29 @@ nav a.active {
     border-radius: 0;
 }
 
-/* ===== Hamburger Menu Setup ===== */
-.nav-toggle {
+/* ===== Tombol Hamburger (JS-driven, pojok kanan atas) ===== */
+.nav-toggle-btn {
     display: none;
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    width: 44px;
+    height: 44px;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--text-light);
+    background-color: transparent;
+    border: 1px solid #3a3a42;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
 }
 
-.nav-toggle-label {
-    display: none;
-    font-size: 1.6rem;
-    color: #ffffff;
-    cursor: pointer;
-    padding: 0.5rem 1.5rem;
-    background-color: var(--bg-nav);
-    text-align: right;
-    border-bottom: 2px solid var(--accent-gold);
+.nav-toggle-btn:hover,
+.nav-toggle-btn:focus-visible {
+    color: var(--accent-gold);
+    border-color: var(--accent-gold);
+    outline: none;
 }
 
 /* ===== Main Container ===== */
@@ -358,43 +361,6 @@ footer {
     margin-top: auto;
 }
 
-/* ===== Responsive Breakpoints ===== */
-@media (max-width: 768px) {
-    .nav-toggle-label {
-        display: block;
-    }
-
-    nav {
-        display: none;
-        width: 100%;
-    }
-
-    .nav-toggle:checked~nav {
-        display: block;
-    }
-
-    nav ul {
-        flex-direction: column;
-        gap: 0;
-        padding: 0;
-    }
-
-    nav a {
-        display: block;
-        padding: 0.75rem 1rem;
-        border-bottom: 1px solid #2a2a30;
-        border-radius: 0;
-    }
-
-    .card-container {
-        padding: 1.25rem;
-    }
-
-    .stat-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
 /* ===== Style Elemen Pre & Code (Scroll Test) ===== */
 pre {
     background-color: var(--bg-dark);
@@ -449,28 +415,77 @@ pre {
     border-radius: 4px;
 }
 
-/* Penyesuaian Hamburger Menu via JS */
-.nav-toggle-btn {
-    display: none;
-    font-size: 1.6rem;
-    color: #fff;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.5rem 1.5rem;
-}
-
+/* ===== Responsive (Mobile) ===== */
 @media (max-width: 768px) {
+
+    /* Banner diberi ruang kanan supaya teks tidak tertimpa tombol */
+    .header-banner {
+        padding: 1.3rem 4.5rem 1.2rem 1.2rem;
+    }
+
+    .header-banner h1 {
+        font-size: 1.4rem;
+    }
+
+    .header-banner .subtitle {
+        font-size: 0.85rem;
+    }
+
     .nav-toggle-btn {
         display: block;
     }
-    
-    /* Sembunyikan label checkbox hack karena sekarang pakai JS */
-    .nav-toggle-label {
-        display: none !important;
+
+    /* Menu tertutup secara default, terbuka saat kelas nav-open ditambahkan JS */
+    nav {
+        display: none;
+        width: 100%;
+        border-top: 1px solid #2a2a30;
     }
 
     nav.nav-open {
         display: block;
+    }
+
+    nav ul {
+        flex-direction: column;
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        gap: 0;
+        padding: 0;
+    }
+
+    nav li {
+        border-bottom: 1px solid #2a2a30;
+        text-align: right;
+    }
+
+    nav li:last-child {
+        border-bottom: none;
+    }
+
+    nav a {
+        display: block;
+        width: 100%;
+        text-align: right !important;
+        padding: 0.9rem 1.2rem;
+        border-radius: 0;
+        border-bottom: none;
+    }
+
+    /* Menu aktif: garis emas tetap di kiri seperti screenshot */
+    nav a.active {
+        border-bottom: none;
+        border-left: none;
+        border-right: 3px solid var(--accent-gold);
+        background-color: rgba(212, 175, 55, 0.08) !important;
+    }
+
+    .card-container {
+        padding: 1.25rem;
+    }
+
+    .stat-grid {
+        grid-template-columns: 1fr;
     }
 }

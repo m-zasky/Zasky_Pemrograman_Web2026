@@ -20,8 +20,8 @@ $dir = basename(dirname($_SERVER['PHP_SELF']));
             <p class="subtitle">Web Pengelola Data Persewaan Alat Outdoor</p>
         </div>
         
-        <!-- Tombol Hamburger baru berbasis JS -->
-        <button id="nav-toggle-btn" class="nav-toggle-btn">&#9776;</button>
+        <!-- Tombol Hamburger (pojok kanan atas, dikontrol JS) -->
+        <button id="nav-toggle-btn" class="nav-toggle-btn" aria-label="Buka menu navigasi">&#9776;</button>
         
         <nav>
             <ul>
