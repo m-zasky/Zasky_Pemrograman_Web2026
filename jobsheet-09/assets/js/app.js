@@ -1,4 +1,4 @@
-// ===== Hamburger menu (JS-driven, menggantikan checkbox hack) =====
+// ===== Hamburger menu (JS-driven) =====
 function initNavToggle() {
     const toggleBtn = document.getElementById("nav-toggle-btn");
     const nav = document.querySelector("header nav");
@@ -9,24 +9,35 @@ function initNavToggle() {
     });
 }
 
-// ===== Konfirmasi hapus =====
-// Tombol Hapus kini berada di dalam <form class="form-hapus" method="post">
-// yang benar-benar mengirim request DELETE ke server (buku/hapus.php,
-// anggota/hapus.php). Konfirmasi dilakukan pada event "submit" agar bisa
-// dibatalkan (preventDefault) sebelum request terkirim.
-function initHapusConfirm() {
-    document.addEventListener("submit", function (e) {
-        const form = e.target;
-        if (!form.classList.contains("form-hapus")) return;
+/* ==============================================================================
+ * KODE PENYEBAB BUG (SEBELUM DIPERBAIKI):
+ * Fungsi di bawah ini adalah penyebab data tidak terhapus secara permanen di database.
+ * 
+ * MENGAPA KODE INI MENJADI PENYEBAB ERROR?
+ * - Fungsi ini mencegat klik tombol hapus menggunakan event listener global.
+ * - Baris "row.remove()" hanya menghapus elemen tabel secara visual di layar browser 
+ *   (front-end only) dan memunculkan alert "Berhasil dihapus dari tampilan."
+ * - Karena tidak ada pengiriman data (submit form) ke file server (hapus.php), 
+ *   maka data di database PostgreSQL tidak tersentuh sama sekali. Akibatnya, 
+ *   ketika halaman di-refresh, data tersebut muncul kembali.
+ * ==============================================================================
 
-        const row = form.closest("tr");
-        const nama = row ? row.querySelector("td")?.textContent : "data ini";
+function initHapusConfirm() {
+    document.addEventListener("click", function (e) {
+        const btn = e.target.closest(".btn-hapus");
+        if (!btn) return;
+
+        const row = btn.closest("tr");
+        const nama = row ? row.querySelectorAll("td")[2]?.textContent : "data ini";
         const yakin = confirm("Yakin ingin menghapus \"" + nama + "\"?");
-        if (!yakin) {
-            e.preventDefault();
+        if (yakin && row) {
+            row.remove(); // <-- PENYEBAB UTAMA: Hanya menghapus tampilan visual browser!
+            alert("Berhasil dihapus dari tampilan.");
         }
     });
 }
+============================================================================== */
+
 
 // ===== Filter/pencarian tabel real-time =====
 function initTableFilter() {
@@ -61,49 +72,24 @@ function hapusError(input) {
 }
 
 function initValidasiForm() {
-    const form = document.getElementById("form-tambah");
+    const formAlat = document.getElementById("formAlat");
+    const formPenyewa = document.getElementById("formPenyewa");
+    const form = formAlat || formPenyewa;
+
     if (!form) return;
 
     form.addEventListener("submit", function (e) {
         let valid = true;
 
-        const judul = form.querySelector("[name='judul'], [name='nama']");
-        if (judul && judul.value.trim() === "") {
-            tampilkanError(judul, "Field ini wajib diisi.");
-            valid = false;
-        } else if (judul) {
-            hapusError(judul);
-        }
-
-        const pengarang = form.querySelector("[name='pengarang']");
-        if (pengarang && pengarang.value.trim() === "") {
-            tampilkanError(pengarang, "Pengarang wajib diisi.");
-            valid = false;
-        } else if (pengarang) {
-            hapusError(pengarang);
-        }
-
-        const tahun = form.querySelector("[name='tahun']");
-        if (tahun) {
-            const nilai = parseInt(tahun.value, 10);
-            if (isNaN(nilai) || nilai < 1900 || nilai > 2026) {
-                tampilkanError(tahun, "Tahun harus di antara 1900-2026.");
+        const inputs = form.querySelectorAll("input, select, textarea");
+        inputs.forEach(input => {
+            if (input.value.trim() === "") {
+                tampilkanError(input, "Field ini wajib diisi.");
                 valid = false;
             } else {
-                hapusError(tahun);
+                hapusError(input);
             }
-        }
-
-        const stok = form.querySelector("[name='stok']");
-        if (stok) {
-            const nilai = parseInt(stok.value, 10);
-            if (isNaN(nilai) || nilai < 0) {
-                tampilkanError(stok, "Stok tidak boleh negatif.");
-                valid = false;
-            } else {
-                hapusError(stok);
-            }
-        }
+        });
 
         if (!valid) {
             e.preventDefault();
@@ -113,7 +99,11 @@ function initValidasiForm() {
 
 document.addEventListener("DOMContentLoaded", function () {
     initNavToggle();
-    initHapusConfirm();
     initTableFilter();
     initValidasiForm();
+    
+    // SOLUSI PERBAIKAN:
+    // initHapusConfirm(); // <-- Fungsi penyebab bug dimatikan. 
+    // Penghapusan data kini diserahkan sepenuhnya ke form HTML yang langsung 
+    // mengeksekusi skrip server di file "hapus.php" agar data terhapus permanen di database.
 });
