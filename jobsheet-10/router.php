@@ -1,11 +1,20 @@
 <?php
-// Pengaturan session global di paling atas
 if (session_status() === PHP_SESSION_NONE) {
     if (getenv('VERCEL') || isset($_ENV['VERCEL'])) {
         session_save_path('/tmp');
     }
     ini_set('session.cookie_path', '/');
     session_start();
+}
+
+// Sync Cookie Login ke $_SESSION (Mengatasi masalah multi-instance Serverless Vercel)
+if (isset($_COOKIE['app_user_session'])) {
+    $sessData = json_decode(base64_decode($_COOKIE['app_user_session']), true);
+    if (is_array($sessData)) {
+        $_SESSION['user_id'] = $sessData['user_id'] ?? null;
+        $_SESSION['nama']    = $sessData['nama'] ?? null;
+        $_SESSION['role']    = $sessData['role'] ?? null;
+    }
 }
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);

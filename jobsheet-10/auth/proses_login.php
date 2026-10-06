@@ -20,6 +20,19 @@ if ($user && password_verify($password, $user['password'])) {
     $_SESSION['nama'] = $user['nama'];
     $_SESSION['role'] = $user['role'];
     
+    // Simpan data session ke Cookie agar selalu terbawa di Vercel
+    $cookiePayload = base64_encode(json_encode([
+        'user_id' => $user['id'],
+        'nama'    => $user['nama'],
+        'role'    => $user['role']
+    ]));
+    setcookie('app_user_session', $cookiePayload, [
+        'expires'  => time() + 86400,
+        'path'     => '/',
+        'httponly' => true,
+        'samesite' => 'Lax'
+    ]);
+
     session_write_close();
     header('Location: /index.php');
     exit;
