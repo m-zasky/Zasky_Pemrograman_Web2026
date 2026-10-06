@@ -1,5 +1,5 @@
 <?php
-// Atur penyimpanan session khusus Vercel
+// Pengaturan session khusus Vercel
 if (session_status() === PHP_SESSION_NONE) {
     if (getenv('VERCEL') || isset($_ENV['VERCEL'])) {
         session_save_path('/tmp');
@@ -9,27 +9,52 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$filePath = __DIR__ . $uri;
 
-// Jika request meminta file statis di dalam folder assets, biarkan Vercel yang handle
-if (preg_match('/\.(?:png|jpg|jpeg|gif|css|js|ico|svg)$/', $uri)) {
-    return false; 
-}
-
-// Tentukan file PHP tujuan
-if ($uri === '/' || $uri === '') {
-    $file = __DIR__ . '/index.php';
-} else {
-    $file = __DIR__ . $uri;
-    if (is_dir($file)) {
-        $file = rtrim($file, '/') . '/index.php';
+// 1. Jika request adalah file statis (CSS, JS, Gambar), sajikan langsung
+if ($uri !== '/' && file_exists($filePath) && is_file($filePath)) {
+    $ext = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+    
+    // Jika file PHP, jalankan
+    if ($ext === 'php') {
+        chdir(dirname($filePath));
+        require basename($filePath);
+        exit;
     }
+    
+    // Header tipe file statis
+    $mimes = [
+        'css'  => 'text/css; charset=utf-8',
+        'js'   => 'application/javascript; charset=utf-8',
+        'png'  => 'image/png',
+        'jpg'  => 'image/jpeg',
+        'jpeg' => 'image/jpeg',
+        'gif'  => 'image/gif',
+        'svg'  => 'image/svg+xml',
+        'ico'  => 'image/x-icon'
+    ];
+    
+    if (isset($mimes[$ext])) {
+        header('Content-Type: ' . $mimes[$ext]);
+    }
+    readfile($filePath);
+    exit;
 }
 
-// Eksekusi file PHP jika ada
-if (file_exists($file) && is_file($file)) {
-    chdir(dirname($file));
-    require basename($file);
-} else {
-    http_response_code(404);
-    echo "404 - File tidak ditemukan.";
+// 2. Routing untuk halaman root /
+if ($uri === '/' || $uri === '') {
+    chdir(__DIR__);
+    require __DIR__ . '/index.php';
+    exit;
 }
+
+// 3. Routing untuk folder (misal /alat/ -> /alat/index.php)
+if (is_dir($filePath) && file_exists($filePath . '/index.php')) {
+    chdir($filePath);
+    require $filePath . '/index.php';
+    exit;
+}
+
+// 4. Jika file tidak ditemukan
+http_response_code(404);
+echo "404 - Halaman tidak ditemukan.";
