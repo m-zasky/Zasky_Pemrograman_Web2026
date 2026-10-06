@@ -1,7 +1,19 @@
 {
   "version": 2,
+  "builds": [
+    {
+      "src": "router.php",
+      "use": "vercel-php"
+    }
+  ],
   "routes": [
-    { "src": "/assets/(.*)", "dest": "/assets/$1" },
-    { "src": "/(.*)", "dest": "/router.php" }
+    {
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/router.php"
+    }
   ]
 }
