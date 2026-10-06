@@ -1,5 +1,9 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
+    if (getenv('VERCEL') || isset($_ENV['VERCEL'])) {
+        session_save_path('/tmp');
+    }
+    ini_set('session.cookie_path', '/');
     session_start();
 }
 require __DIR__ . '/../includes/koneksi.php';
@@ -21,6 +25,7 @@ if (strlen($password) < 6) {
 
 if (!empty($errors)) {
     $_SESSION['flash'] = ['type' => 'error', 'pesan' => implode(' ', $errors)];
+    session_write_close();
     header('Location: register.php');
     exit;
 }
@@ -29,6 +34,7 @@ $cek = $pdo->prepare("SELECT id FROM users WHERE username = :username");
 $cek->execute(['username' => $username]);
 if ($cek->fetch()) {
     $_SESSION['flash'] = ['type' => 'error', 'pesan' => 'Username sudah digunakan.'];
+    session_write_close();
     header('Location: register.php');
     exit;
 }
@@ -43,5 +49,6 @@ $stmt->execute([
 ]);
 
 $_SESSION['flash'] = ['type' => 'success', 'pesan' => 'Registrasi berhasil, silakan login.'];
+session_write_close();
 header('Location: login.php');
 exit;

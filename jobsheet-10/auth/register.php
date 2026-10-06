@@ -1,5 +1,9 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
+    if (getenv('VERCEL') || isset($_ENV['VERCEL'])) {
+        session_save_path('/tmp');
+    }
+    ini_set('session.cookie_path', '/');
     session_start();
 }
 if (isset($_SESSION['user_id'])) {

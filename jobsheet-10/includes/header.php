@@ -4,7 +4,6 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 $sudahLogin = isset($_SESSION['user_id']);
 
-// Path penyesuaian otomatis untuk file dalam subfolder
 $__jobsheetRoot = dirname(__DIR__);
 $__scriptDir = dirname($_SERVER['SCRIPT_FILENAME']);
 $__rel = ltrim(str_replace('\\', '/', substr($__scriptDir, strlen($__jobsheetRoot))), '/');
@@ -19,19 +18,27 @@ $current_dir = basename(dirname($_SERVER['SCRIPT_NAME']));
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Persewaan Alat Outdoor</title>
-    <link rel="stylesheet" href="<?php echo $base; ?>assets/css/style.css">
+    <link rel="stylesheet" href="<?php echo $base; ?>assets/css/style.css?v=1.1">
+    <script src="<?php echo $base; ?>assets/js/app.js?v=1.1" defer></script>
 </head>
 <body>
     <header>
-        <!-- Layer Atas: Judul Web -->
         <div class="header-top">
             <div class="brand">
                 <h1>Persewaan Alat Outdoor</h1>
                 <p>Web Pengelola Data Persewaan Alat Outdoor</p>
             </div>
+            
+            <div class="auth-box">
+                <?php if ($sudahLogin): ?>
+                    <span class="user-greeting">Halo, <?php echo htmlspecialchars($_SESSION['nama'] ?? 'User'); ?></span>
+                    <a href="<?php echo $base; ?>auth/logout.php" class="btn-logout">Logout</a>
+                <?php else: ?>
+                    <a href="<?php echo $base; ?>auth/login.php" class="btn-login">Login</a>
+                <?php endif; ?>
+            </div>
         </div>
 
-        <!-- Layer Bawah: Strip Navigasi + Tombol Login/Logout -->
         <div class="header-nav-bar">
             <div class="nav-container">
                 <button type="button" id="nav-toggle-btn" class="nav-toggle-btn" aria-label="Menu">&#9776;</button>
@@ -45,15 +52,6 @@ $current_dir = basename(dirname($_SERVER['SCRIPT_NAME']));
                         <a href="<?php echo $base; ?>penyewa/tambah.php" class="<?php echo ($current_dir == 'penyewa' && $current_script == 'tambah.php') ? 'active' : ''; ?>">Tambah Penyewa</a>
                     <?php endif; ?>
                 </nav>
-
-                <div class="auth-box">
-                    <?php if ($sudahLogin): ?>
-                        <span class="user-greeting">Halo, <?php echo htmlspecialchars($_SESSION['nama']); ?></span>
-                        <a href="<?php echo $base; ?>auth/logout.php" class="btn-logout">Logout</a>
-                    <?php else: ?>
-                        <a href="<?php echo $base; ?>auth/login.php" class="btn-login">Login</a>
-                    <?php endif; ?>
-                </div>
             </div>
         </div>
     </header>

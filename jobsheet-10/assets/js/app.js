@@ -1,15 +1,23 @@
-// ===== Hamburger menu (JS-driven) =====
-function initNavToggle() {
+document.addEventListener("DOMContentLoaded", function () {
     const toggleBtn = document.getElementById("nav-toggle-btn");
-    const nav = document.querySelector("header nav");
-    if (!toggleBtn || !nav) return;
+    const mainNav = document.getElementById("main-nav");
 
-    toggleBtn.addEventListener("click", function () {
-        nav.classList.toggle("nav-open");
-    });
-}
+    if (toggleBtn && mainNav) {
+        toggleBtn.onclick = function (e) {
+            e.preventDefault();
+            if (mainNav.style.display === "flex") {
+                mainNav.style.display = "none";
+            } else {
+                mainNav.style.display = "flex";
+            }
+        };
+    }
 
-// ===== Konfirmasi hapus =====
+    initHapusConfirm();
+    initTableFilter();
+    initValidasiForm();
+});
+
 function initHapusConfirm() {
     document.addEventListener("submit", function (e) {
         const form = e.target;
@@ -17,14 +25,13 @@ function initHapusConfirm() {
 
         const row = form.closest("tr");
         const nama = row ? row.querySelector("td")?.textContent : "data ini";
-        const yakin = confirm("Yakin ingin menghapus \"" + nama + "\"?");
+        const yakin = confirm('Yakin ingin menghapus "' + nama.trim() + '"?');
         if (!yakin) {
             e.preventDefault();
         }
     });
 }
 
-// ===== Filter/pencarian tabel real-time =====
 function initTableFilter() {
     const input = document.getElementById("search-input");
     const table = document.querySelector(".table-responsive table");
@@ -40,49 +47,22 @@ function initTableFilter() {
     });
 }
 
-// ===== Validasi Form Alat/Penyewa (Umum) =====
-function tampilkanError(input, pesan) {
-    hapusError(input);
-    const span = document.createElement("span");
-    span.className = "error";
-    span.textContent = pesan;
-    input.insertAdjacentElement("afterend", span);
-}
-
-function hapusError(input) {
-    const next = input.nextElementSibling;
-    if (next && next.classList.contains("error")) {
-        next.remove();
-    }
-}
-
 function initValidasiForm() {
     const form = document.getElementById("form-tambah");
     if (!form) return;
 
     form.addEventListener("submit", function (e) {
         let valid = true;
-
-        // Validasi input wajib (Nama/Merek/dll)
         const inputsRequired = form.querySelectorAll("input[required], select[required]");
         inputsRequired.forEach(function (input) {
             if (input.value.trim() === "") {
-                tampilkanError(input, "Field ini wajib diisi.");
                 valid = false;
-            } else {
-                hapusError(input);
             }
         });
 
         if (!valid) {
             e.preventDefault();
+            alert("Harap isi semua field yang wajib!");
         }
     });
 }
-
-document.addEventListener("DOMContentLoaded", function () {
-    initNavToggle();
-    initHapusConfirm();
-    initTableFilter();
-    initValidasiForm();
-});

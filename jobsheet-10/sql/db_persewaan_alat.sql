@@ -9,6 +9,7 @@ CREATE TABLE
         kategori VARCHAR(50) NOT NULL,
         tarif INT NOT NULL,
         stok INT NOT NULL,
+        tanggal_ditambahkan TIMESTAMP DEFAULT NOW ()
     );
 
 -- Skrip Tabel Penyewa (Adaptasi dari tabel anggota Jobsheet 8-9)
@@ -20,7 +21,10 @@ CREATE TABLE
         no_hp VARCHAR(20) NOT NULL,
         alamat TEXT NOT NULL,
         status_member VARCHAR(50) DEFAULT 'Regular',
-
+        -- Poin 2: Menambahkan kolom timestamp otomatis
+        -- Kolom ini menggunakan tipe data TIMESTAMP dengan nilai default fungsi NOW() 
+        -- agar sistem secara otomatis mencatat tanggal dan waktu saat data baru dimasukkan
+        tanggal_ditambahkan TIMESTAMP DEFAULT NOW ()
     );
 
 -- Penambahan Jobsheet-10
