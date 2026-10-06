@@ -1,5 +1,9 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
+    if (getenv('VERCEL') || isset($_ENV['VERCEL'])) {
+        session_save_path('/tmp');
+    }
+    ini_set('session.cookie_path', '/');
     session_start();
 }
 if (isset($_SESSION['user_id'])) {
@@ -21,7 +25,6 @@ unset($_SESSION['flash']);
             <?php endif; ?>
 
             <form method="post" action="proses_login.php">
-                <?php echo csrf_field(); ?>
                 <p>
                     <label for="username">Username</label><br>
                     <input type="text" id="username" name="username" required>

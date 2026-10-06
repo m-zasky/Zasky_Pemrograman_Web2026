@@ -1,11 +1,12 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
+    if (getenv('VERCEL') || isset($_ENV['VERCEL'])) {
+        session_save_path('/tmp');
+    }
+    ini_set('session.cookie_path', '/');
     session_start();
 }
-require __DIR__ . '/../includes/csrf.php';
 require __DIR__ . '/../includes/koneksi.php';
-
-csrf_verify();
 
 $username = trim($_POST['username'] ?? '');
 $password = $_POST['password'] ?? '';
@@ -15,16 +16,29 @@ $stmt->execute(['username' => $username]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($user && password_verify($password, $user['password'])) {
-    // Regenerasi session ID setelah login berhasil untuk mencegah session fixation.
-    session_regenerate_id(true);
-
     $_SESSION['user_id'] = $user['id'];
     $_SESSION['nama'] = $user['nama'];
     $_SESSION['role'] = $user['role'];
-    header('Location: ../index.php');
+    
+    // Simpan data session ke Cookie agar selalu terbawa di Vercel
+    $cookiePayload = base64_encode(json_encode([
+        'user_id' => $user['id'],
+        'nama'    => $user['nama'],
+        'role'    => $user['role']
+    ]));
+    setcookie('app_user_session', $cookiePayload, [
+        'expires'  => time() + 86400,
+        'path'     => '/',
+        'httponly' => true,
+        'samesite' => 'Lax'
+    ]);
+
+    session_write_close();
+    header('Location: /index.php');
     exit;
 }
 
 $_SESSION['flash'] = ['type' => 'error', 'pesan' => 'Username atau password salah.'];
-header('Location: login.php');
+session_write_close();
+header('Location: /auth/login.php');
 exit;
