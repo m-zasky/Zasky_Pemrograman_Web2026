@@ -20,13 +20,12 @@ if ($user && password_verify($password, $user['password'])) {
     $_SESSION['nama'] = $user['nama'];
     $_SESSION['role'] = $user['role'];
     
-    // Pastikan session tersimpan sebelum redirect
     session_write_close();
-    header('Location: ../index.php');
+    header('Location: /index.php');
     exit;
 }
 
 $_SESSION['flash'] = ['type' => 'error', 'pesan' => 'Username atau password salah.'];
 session_write_close();
-header('Location: login.php');
+header('Location: /auth/login.php');
 exit;
