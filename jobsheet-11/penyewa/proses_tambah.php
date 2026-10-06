@@ -1,33 +1,29 @@
 <?php
-require_once '../includes/auth.php';
-require_once '../includes/koneksi.php';
+require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/csrf.php';
+require_once __DIR__ . '/../includes/koneksi.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $kode_penyewa = trim($_POST['kode_penyewa'] ?? '');
-    $nama_lengkap = trim($_POST['nama_lengkap'] ?? '');
-    $no_hp = trim($_POST['no_hp'] ?? '');
-    $alamat = trim($_POST['alamat'] ?? '');
-    $status_member = trim($_POST['status_member'] ?? 'Regular');
+csrf_verify();
 
-    $stmt = $pdo->prepare("INSERT INTO penyewa (kode_penyewa, nama_lengkap, no_hp, alamat, status_member) VALUES (:kode_penyewa, :nama_lengkap, :no_hp, :alamat, :status_member)");
-    
-    $berhasil = $stmt->execute([
-        'kode_penyewa' => $kode_penyewa,
-        'nama_lengkap' => $nama_lengkap,
-        'no_hp' => $no_hp,
-        'alamat' => $alamat,
-        'status_member' => $status_member
-    ]);
+$kode_penyewa = trim($_POST['kode_penyewa'] ?? '');
+$nama_lengkap = trim($_POST['nama_lengkap'] ?? '');
+$no_hp        = trim($_POST['no_hp'] ?? '');
+$alamat       = trim($_POST['alamat'] ?? '');
 
-    if ($berhasil) {
-        $_SESSION['flash'] = ['type' => 'success', 'pesan' => 'Data penyewa berhasil ditambahkan!'];
-    } else {
-        $_SESSION['flash'] = ['type' => 'error', 'pesan' => 'Gagal menambahkan data penyewa.'];
-    }
-    
-    header("Location: list.php");
+if ($kode_penyewa === '' || $nama_lengkap === '' || $no_hp === '' || $alamat === '') {
+    $_SESSION['flash'] = ['type' => 'error', 'pesan' => 'Semua kolom wajib diisi.'];
+    header('Location: tambah.php');
     exit;
 }
 
-header("Location: list.php");
+$stmt = $pdo->prepare("INSERT INTO penyewa (kode_penyewa, nama_lengkap, no_hp, alamat) VALUES (:kode, :nama, :no_hp, :alamat)");
+$stmt->execute([
+    'kode'   => $kode_penyewa,
+    'nama'   => $nama_lengkap,
+    'no_hp'  => $no_hp,
+    'alamat' => $alamat
+]);
+
+$_SESSION['flash'] = ['type' => 'success', 'pesan' => 'Data penyewa berhasil ditambahkan!'];
+header('Location: list.php');
 exit;

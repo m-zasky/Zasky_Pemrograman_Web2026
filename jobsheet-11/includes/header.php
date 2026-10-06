@@ -1,4 +1,7 @@
 <?php
+require_once __DIR__ . '/helpers.php';
+require_once __DIR__ . '/csrf.php';
+
 if (session_status() === PHP_SESSION_NONE) {
     if (getenv('VERCEL') || isset($_ENV['VERCEL'])) {
         session_save_path('/tmp');
@@ -6,8 +9,17 @@ if (session_status() === PHP_SESSION_NONE) {
     ini_set('session.cookie_path', '/');
     session_start();
 }
-$sudahLogin = isset($_SESSION['user_id']);
 
+if (isset($_COOKIE['app_user_session'])) {
+    $sessData = json_decode(base64_decode($_COOKIE['app_user_session']), true);
+    if (is_array($sessData)) {
+        $_SESSION['user_id'] = $sessData['user_id'] ?? null;
+        $_SESSION['nama']    = $sessData['nama'] ?? null;
+        $_SESSION['role']    = $sessData['role'] ?? null;
+    }
+}
+
+$sudahLogin = isset($_SESSION['user_id']);
 $current_script = basename($_SERVER['SCRIPT_NAME']);
 $current_dir = basename(dirname($_SERVER['SCRIPT_NAME']));
 ?>
@@ -17,12 +29,11 @@ $current_dir = basename(dirname($_SERVER['SCRIPT_NAME']));
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Persewaan Alat Outdoor</title>
-    <link rel="stylesheet" href="/assets/css/style.css?v=2.0">
-    <script src="/assets/js/app.js?v=2.0" defer></script>
+    <link rel="stylesheet" href="/assets/css/style.css?v=3.0">
+    <script src="/assets/js/app.js?v=3.0" defer></script>
 </head>
 <body>
     <header>
-        <!-- Layer Atas: Judul Web (Kiri) + Auth Box (Kanan) -->
         <div class="header-top">
             <div class="brand">
                 <h1>Persewaan Alat Outdoor</h1>
@@ -31,7 +42,7 @@ $current_dir = basename(dirname($_SERVER['SCRIPT_NAME']));
             
             <div class="auth-box">
                 <?php if ($sudahLogin): ?>
-                    <span class="user-greeting">Halo, <?php echo htmlspecialchars($_SESSION['nama'] ?? 'User'); ?></span>
+                    <span class="user-greeting">Halo, <?php echo e($_SESSION['nama'] ?? 'User'); ?></span>
                     <a href="/auth/logout.php" class="btn-logout">Logout</a>
                 <?php else: ?>
                     <a href="/auth/login.php" class="btn-login">Login</a>
@@ -39,7 +50,6 @@ $current_dir = basename(dirname($_SERVER['SCRIPT_NAME']));
             </div>
         </div>
 
-        <!-- Layer Bawah: Strip Navigasi Utama -->
         <div class="header-nav-bar">
             <div class="nav-container">
                 <button type="button" id="nav-toggle-btn" class="nav-toggle-btn" aria-label="Menu">&#9776;</button>

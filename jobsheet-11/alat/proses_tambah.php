@@ -1,33 +1,31 @@
 <?php
-require_once '../includes/auth.php';
-require_once '../includes/koneksi.php';
+require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/csrf.php';
+require_once __DIR__ . '/../includes/koneksi.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $kode_alat = trim($_POST['kode_alat'] ?? '');
-    $nama_alat = trim($_POST['nama_alat'] ?? '');
-    $kategori = trim($_POST['kategori'] ?? '');
-    $tarif = trim($_POST['tarif'] ?? 0);
-    $stok = trim($_POST['stok'] ?? 0);
+csrf_verify();
 
-    $stmt = $pdo->prepare("INSERT INTO alat (kode_alat, nama_alat, kategori, tarif, stok) VALUES (:kode_alat, :nama_alat, :kategori, :tarif, :stok)");
-    
-    $berhasil = $stmt->execute([
-        'kode_alat' => $kode_alat,
-        'nama_alat' => $nama_alat,
-        'kategori' => $kategori,
-        'tarif' => $tarif,
-        'stok' => $stok
-    ]);
+$kode_alat = trim($_POST['kode_alat'] ?? '');
+$nama_alat = trim($_POST['nama_alat'] ?? '');
+$kategori  = trim($_POST['kategori'] ?? '');
+$tarif     = (int)($_POST['tarif'] ?? 0);
+$stok      = (int)($_POST['stok'] ?? 0);
 
-    if ($berhasil) {
-        $_SESSION['flash'] = ['type' => 'success', 'pesan' => 'Data alat berhasil ditambahkan!'];
-    } else {
-        $_SESSION['flash'] = ['type' => 'error', 'pesan' => 'Gagal menambahkan data alat.'];
-    }
-    
-    header("Location: list.php");
+if ($kode_alat === '' || $nama_alat === '' || $kategori === '') {
+    $_SESSION['flash'] = ['type' => 'error', 'pesan' => 'Semua kolom wajib diisi.'];
+    header('Location: tambah.php');
     exit;
 }
 
-header("Location: list.php");
+$stmt = $pdo->prepare("INSERT INTO alat (kode_alat, nama_alat, kategori, tarif, stok) VALUES (:kode, :nama, :kategori, :tarif, :stok)");
+$stmt->execute([
+    'kode'     => $kode_alat,
+    'nama'     => $nama_alat,
+    'kategori' => $kategori,
+    'tarif'    => $tarif,
+    'stok'     => $stok
+]);
+
+$_SESSION['flash'] = ['type' => 'success', 'pesan' => 'Data alat berhasil ditambahkan!'];
+header('Location: list.php');
 exit;

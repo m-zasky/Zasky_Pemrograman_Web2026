@@ -1,20 +1,13 @@
 <?php
-// Pastikan guard auth atau session terpanggil dengan benar
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-$sudahLogin = isset($_SESSION['user_id']);
-
-// Pemanggilan header dan koneksi HANYA SEKALI
 require_once __DIR__ . '/../includes/header.php';
 require_once __DIR__ . '/../includes/koneksi.php';
 
 $page_title = "Daftar Alat";
+$sudahLogin = isset($_SESSION['user_id']);
 
 $flash = $_SESSION['flash'] ?? null;
 unset($_SESSION['flash']);
 
-// Pengaturan Pagination (10 baris per halaman)
 $perPage = 10;
 $page = max(1, (int) ($_GET['page'] ?? 1));
 $offset = ($page - 1) * $perPage;
@@ -49,22 +42,20 @@ $totalPages = max(1, (int) ceil($totalRows / $perPage));
     <hr class="divider">
 
     <?php if ($flash): ?>
-        <div class="flash flash-<?php echo $flash['type']; ?>">
-            <?php echo $flash['pesan']; ?>
+        <div class="flash flash-<?php echo e($flash['type']); ?>">
+            <?php echo e($flash['pesan']); ?>
         </div>
     <?php endif; ?>
 
-    <!-- Tombol Tambah Alat (Hanya muncul jika sudah login) -->
     <?php if ($sudahLogin): ?>
         <div style="margin-bottom: 1.5rem;">
             <a href="tambah.php" class="btn-tambah">+ Tambah Alat Baru</a>
         </div>
     <?php endif; ?>
 
-    <!-- Kotak Pencarian -->
     <div class="search-box">
         <form method="get" action="list.php">
-            <input type="text" id="search-input" name="q" value="<?php echo htmlspecialchars($keyword); ?>" placeholder="Cari nama alat atau kategori...">
+            <input type="text" id="search-input" name="q" value="<?php echo e($keyword); ?>" placeholder="Cari nama alat atau kategori...">
             <button type="submit">Cari</button>
             <?php if($keyword !== ''): ?>
                 <a href="list.php" style="padding: 0.55rem 1rem; background-color: #e5e7eb; color: #374151; border-radius: 6px; font-weight: 600;">Reset</a>
@@ -93,19 +84,21 @@ $totalPages = max(1, (int) ceil($totalRows / $perPage));
                 <?php else: ?>
                     <?php foreach ($daftarAlat as $alat): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($alat['nama_alat']); ?></td>
-                        <td><?php echo htmlspecialchars($alat['kategori']); ?></td>
+                        <td><?php echo e($alat['nama_alat']); ?></td>
+                        <td><?php echo e($alat['kategori']); ?></td>
                         <td>Rp <?php echo number_format($alat['tarif'], 0, ',', '.'); ?></td>
-                        <td><?php echo htmlspecialchars($alat['stok']); ?></td>
+                        <td><?php echo e($alat['stok']); ?></td>
                         
-                        <!-- Kolom Aksi (Hanya muncul jika sudah login) -->
                         <?php if ($sudahLogin): ?>
                             <td>
-                                <a href="edit.php?id=<?php echo $alat['id']; ?>" class="btn-edit">Edit</a>
-                                <form method="post" action="hapus.php" class="form-hapus" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
-                                    <input type="hidden" name="id" value="<?php echo $alat['id']; ?>">
-                                    <button type="submit" class="btn-hapus">Hapus</button>
-                                </form>
+                                <div class="action-cell">
+                                    <a href="edit.php?id=<?php echo e($alat['id']); ?>" class="btn-edit">Edit</a>
+                                    <form method="post" action="hapus.php" class="form-hapus">
+                                        <?php echo csrf_field(); ?>
+                                        <input type="hidden" name="id" value="<?php echo e($alat['id']); ?>">
+                                        <button type="submit" class="btn-hapus">Hapus</button>
+                                    </form>
+                                </div>
                             </td>
                         <?php endif; ?>
                     </tr>
@@ -115,7 +108,6 @@ $totalPages = max(1, (int) ceil($totalRows / $perPage));
         </table>
     </div>
 
-    <!-- Paging -->
     <?php if ($totalPages > 1): ?>
     <div class="pagination" style="margin-top: 1.5rem; display: flex; gap: 0.5rem;">
         <?php for ($i = 1; $i <= $totalPages; $i++): ?>

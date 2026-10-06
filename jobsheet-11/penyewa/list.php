@@ -1,13 +1,9 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-$sudahLogin = isset($_SESSION['user_id']);
-
 require_once __DIR__ . '/../includes/header.php';
 require_once __DIR__ . '/../includes/koneksi.php';
 
 $page_title = "Daftar Penyewa";
+$sudahLogin = isset($_SESSION['user_id']);
 
 $flash = $_SESSION['flash'] ?? null;
 unset($_SESSION['flash']);
@@ -46,8 +42,8 @@ $totalPages = max(1, (int) ceil($totalRows / $perPage));
     <hr class="divider">
 
     <?php if ($flash): ?>
-        <div class="flash flash-<?php echo $flash['type']; ?>">
-            <?php echo $flash['pesan']; ?>
+        <div class="flash flash-<?php echo e($flash['type']); ?>">
+            <?php echo e($flash['pesan']); ?>
         </div>
     <?php endif; ?>
 
@@ -59,7 +55,7 @@ $totalPages = max(1, (int) ceil($totalRows / $perPage));
 
     <div class="search-box">
         <form method="get" action="list.php">
-            <input type="text" id="search-input" name="q" value="<?php echo htmlspecialchars($keyword); ?>" placeholder="Cari nama atau alamat...">
+            <input type="text" id="search-input" name="q" value="<?php echo e($keyword); ?>" placeholder="Cari nama atau alamat...">
             <button type="submit">Cari</button>
             <?php if($keyword !== ''): ?>
                 <a href="list.php" style="padding: 0.55rem 1rem; background-color: #e5e7eb; color: #374151; border-radius: 6px; font-weight: 600;">Reset</a>
@@ -87,17 +83,20 @@ $totalPages = max(1, (int) ceil($totalRows / $perPage));
                 <?php else: ?>
                     <?php foreach ($daftarPenyewa as $penyewa): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($penyewa['nama_lengkap']); ?></td>
-                        <td><?php echo htmlspecialchars($penyewa['alamat']); ?></td>
-                        <td><?php echo htmlspecialchars($penyewa['no_hp']); ?></td>
+                        <td><?php echo e($penyewa['nama_lengkap']); ?></td>
+                        <td><?php echo e($penyewa['alamat']); ?></td>
+                        <td><?php echo e($penyewa['no_hp']); ?></td>
                         
                         <?php if ($sudahLogin): ?>
                             <td>
-                                <a href="edit.php?id=<?php echo $penyewa['id']; ?>" class="btn-edit">Edit</a>
-                                <form method="post" action="hapus.php" class="form-hapus" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
-                                    <input type="hidden" name="id" value="<?php echo $penyewa['id']; ?>">
-                                    <button type="submit" class="btn-hapus">Hapus</button>
-                                </form>
+                                <div class="action-cell">
+                                    <a href="edit.php?id=<?php echo e($penyewa['id']); ?>" class="btn-edit">Edit</a>
+                                    <form method="post" action="hapus.php" class="form-hapus">
+                                        <?php echo csrf_field(); ?>
+                                        <input type="hidden" name="id" value="<?php echo e($penyewa['id']); ?>">
+                                        <button type="submit" class="btn-hapus">Hapus</button>
+                                    </form>
+                                </div>
                             </td>
                         <?php endif; ?>
                     </tr>

@@ -1,19 +1,19 @@
 <?php
-require_once '../includes/auth.php';
-require_once '../includes/koneksi.php';
+require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/csrf.php';
+require_once __DIR__ . '/../includes/koneksi.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = $_POST['id'] ?? null;
-    
-    if ($id) {
-        $stmt = $pdo->prepare("DELETE FROM penyewa WHERE id = :id");
-        if ($stmt->execute(['id' => $id])) {
-            $_SESSION['flash'] = ['type' => 'success', 'pesan' => 'Data penyewa berhasil dihapus!'];
-        } else {
-            $_SESSION['flash'] = ['type' => 'error', 'pesan' => 'Gagal menghapus data penyewa.'];
-        }
-    }
+csrf_verify();
+
+$id = (int)($_POST['id'] ?? 0);
+
+if ($id > 0) {
+    $stmt = $pdo->prepare("DELETE FROM penyewa WHERE id = :id");
+    $stmt->execute(['id' => $id]);
+    $_SESSION['flash'] = ['type' => 'success', 'pesan' => 'Data penyewa berhasil dihapus!'];
+} else {
+    $_SESSION['flash'] = ['type' => 'error', 'pesan' => 'ID data tidak valid.'];
 }
 
-header("Location: list.php");
+header('Location: list.php');
 exit;

@@ -1,30 +1,31 @@
 <?php
-require_once '../includes/auth.php';
-require_once '../includes/koneksi.php';
+require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/csrf.php';
+require_once __DIR__ . '/../includes/koneksi.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = trim($_POST['id'] ?? '');
-    $nama_alat = trim($_POST['nama_alat'] ?? '');
-    $tarif = trim($_POST['tarif'] ?? 0);
-    $stok = trim($_POST['stok'] ?? 0);
+csrf_verify();
 
-    $stmt = $pdo->prepare("UPDATE alat SET nama_alat = :nama_alat, tarif = :tarif, stok = :stok WHERE id = :id");
-    
-    $berhasil = $stmt->execute([
-        'nama_alat' => $nama_alat,
-        'tarif' => $tarif,
-        'stok' => $stok,
-        'id' => $id
-    ]);
+$id        = (int)($_POST['id'] ?? 0);
+$nama_alat = trim($_POST['nama_alat'] ?? '');
+$kategori  = trim($_POST['kategori'] ?? '');
+$tarif     = (int)($_POST['tarif'] ?? 0);
+$stok      = (int)($_POST['stok'] ?? 0);
 
-    if ($berhasil) {
-        $_SESSION['flash'] = ['type' => 'success', 'pesan' => 'Data alat berhasil diupdate!'];
-        header("Location: list.php");
-    } else {
-        $_SESSION['flash'] = ['type' => 'error', 'pesan' => 'Gagal mengupdate data alat.'];
-        header("Location: edit.php?id=" . $id);
-    }
+if ($id <= 0 || $nama_alat === '' || $kategori === '') {
+    $_SESSION['flash'] = ['type' => 'error', 'pesan' => 'Data input tidak valid.'];
+    header('Location: list.php');
     exit;
 }
-header("Location: list.php");
+
+$stmt = $pdo->prepare("UPDATE alat SET nama_alat = :nama, kategori = :kategori, tarif = :tarif, stok = :stok WHERE id = :id");
+$stmt->execute([
+    'id'       => $id,
+    'nama'     => $nama_alat,
+    'kategori' => $kategori,
+    'tarif'    => $tarif,
+    'stok'     => $stok
+]);
+
+$_SESSION['flash'] = ['type' => 'success', 'pesan' => 'Data alat berhasil diperbarui!'];
+header('Location: list.php');
 exit;

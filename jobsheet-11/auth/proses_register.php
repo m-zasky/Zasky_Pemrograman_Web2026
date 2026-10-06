@@ -1,12 +1,8 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    if (getenv('VERCEL') || isset($_ENV['VERCEL'])) {
-        session_save_path('/tmp');
-    }
-    ini_set('session.cookie_path', '/');
-    session_start();
-}
-require __DIR__ . '/../includes/koneksi.php';
+require_once __DIR__ . '/../includes/csrf.php';
+require_once __DIR__ . '/../includes/koneksi.php';
+
+csrf_verify();
 
 $nama = trim($_POST['nama'] ?? '');
 $username = trim($_POST['username'] ?? '');

@@ -1,9 +1,8 @@
 <?php
-require_once '../includes/auth.php';
-require_once '../includes/header.php';
-require_once '../includes/koneksi.php';
+require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/header.php';
 
-$page_title = "Tambah Penyewa";
+$page_title = "Tambah Penyewa Baru";
 ?>
 
 <div class="card">
@@ -11,13 +10,8 @@ $page_title = "Tambah Penyewa";
     <p class="subtitle">Silakan isi data penyewa baru di bawah ini.</p>
     <hr class="divider">
 
-    <?php if (isset($_SESSION['error_penyewa'])): ?>
-        <div class="flash flash-error">
-            <?php echo $_SESSION['error_penyewa']; unset($_SESSION['error_penyewa']); ?>
-        </div>
-    <?php endif; ?>
-
-    <form action="proses_tambah.php" method="POST">
+    <form method="post" action="proses_tambah.php" id="form-tambah">
+        <?php echo csrf_field(); ?>
         <p>
             <label for="kode_penyewa">Kode Penyewa:</label>
             <input type="text" id="kode_penyewa" name="kode_penyewa" placeholder="Contoh: PNY-001" required>
@@ -32,13 +26,13 @@ $page_title = "Tambah Penyewa";
         </p>
         <p>
             <label for="alamat">Alamat Lengkap:</label>
-            <textarea id="alamat" name="alamat" placeholder="Contoh: Jl. Semeru No. 4, Malang" rows="3" required style="width: 100%; max-width: 450px; padding: 0.7rem 0.85rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 0.95rem;"></textarea>
+            <textarea id="alamat" name="alamat" rows="3" placeholder="Contoh: Jl. Semeru No. 4, Malang" required></textarea>
         </p>
         <p style="margin-top: 1.5rem;">
-            <button type="submit">Simpan Data</button>
-            <a href="list.php">Batal</a>
+            <button type="submit" class="btn-submit">Simpan Data</button>
+            <a href="list.php" class="btn-cancel">Batal</a>
         </p>
     </form>
 </div>
 
-<?php require_once '../includes/footer.php'; ?>
+<?php require_once __DIR__ . '/../includes/footer.php'; ?>
