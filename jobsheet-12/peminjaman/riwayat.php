@@ -1,83 +1,63 @@
 <?php
-require __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/helpers.php';
+require_once __DIR__ . '/../includes/koneksi.php';
+require_once __DIR__ . '/../includes/header.php';
+
 $page_title = "Riwayat Peminjaman";
-include __DIR__ . '/../includes/header.php';
-require __DIR__ . '/../includes/koneksi.php';
 
-$anggotaId = $_GET['anggota_id'] ?? '';
-$daftarAnggota = $pdo->query("SELECT * FROM anggota ORDER BY nama")->fetchAll(PDO::FETCH_ASSOC);
+// Query riwayat transaksi lengkap dengan JOIN
+$sql = "SELECT p.id, py.kode_penyewa, py.nama_lengkap, a.nama_alat, p.tanggal_pinjam, p.tanggal_kembali, p.status 
+        FROM peminjaman p
+        JOIN penyewa py ON p.id_penyewa = py.id
+        JOIN alat a ON p.id_alat = a.id
+        ORDER BY p.id DESC";
 
-$riwayat = [];
-$anggotaTerpilih = null;
-
-if ($anggotaId !== '') {
-    $stmtA = $pdo->prepare("SELECT * FROM anggota WHERE id = :id");
-    $stmtA->execute(['id' => $anggotaId]);
-    $anggotaTerpilih = $stmtA->fetch(PDO::FETCH_ASSOC);
-
-    if ($anggotaTerpilih) {
-        $stmt = $pdo->prepare(
-            "SELECT b.judul, p.tanggal_pinjam, p.tanggal_kembali, p.status
-             FROM peminjaman p
-             JOIN buku b ON b.id = p.buku_id
-             WHERE p.anggota_id = :id
-             ORDER BY p.tanggal_pinjam DESC"
-        );
-        $stmt->execute(['id' => $anggotaId]);
-        $riwayat = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-}
+$stmt = $pdo->query($sql);
+$riwayat_list = $stmt->fetchAll();
 ?>
-        <section>
-            <h2>Riwayat Peminjaman</h2>
 
-            <form method="get" action="riwayat.php">
-                <p>
-                    <label for="anggota_id">Pilih Anggota</label><br>
-                    <select id="anggota_id" name="anggota_id">
-                        <option value="">-- Pilih Anggota --</option>
-                        <?php foreach ($daftarAnggota as $anggota): ?>
-                        <option value="<?php echo $anggota['id']; ?>" <?php echo (string) $anggotaId === (string) $anggota['id'] ? 'selected' : ''; ?>>
-                            <?php echo e($anggota['nama']); ?>
-                        </option>
-                        <?php endforeach; ?>
-                    </select>
-                </p>
-                <p>
-                    <button type="submit">Tampilkan</button>
-                </p>
-            </form>
+<div class="card">
+    <h2>Riwayat Peminjaman Alat Outdoor</h2>
+    <p class="subtitle">Seluruh histori transaksi peminjaman dan pengembalian alat.</p>
+    <hr class="divider">
 
-            <?php if ($anggotaTerpilih): ?>
-            <h3>Riwayat &mdash; <?php echo e($anggotaTerpilih['nama']); ?></h3>
-            <div class="table-responsive">
-            <table>
-                <thead>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Penyewa</th>
+                <th>Alat Outdoor</th>
+                <th>Tgl Pinjam</th>
+                <th>Tgl Kembali</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (empty($riwayat_list)): ?>
+                <tr>
+                    <td colspan="6" style="text-align: center;">Belum ada riwayat transaksi.</td>
+                </tr>
+            <?php else: ?>
+                <?php foreach ($riwayat_list as $index => $item): ?>
                     <tr>
-                        <th>Buku</th>
-                        <th>Pinjam</th>
-                        <th>Kembali</th>
-                        <th>Status</th>
+                        <td><?php echo $index + 1; ?></td>
+                        <td><?php echo e($item['kode_penyewa']); ?> - <?php echo e($item['nama_lengkap']); ?></td>
+                        <td><?php echo e($item['nama_alat']); ?></td>
+                        <td><?php echo e($item['tanggal_pinjam']); ?></td>
+                        <td><?php echo $item['tanggal_kembali'] ? e($item['tanggal_kembali']) : '-'; ?></td>
+                        <td>
+                            <?php if ($item['status'] === 'dipinjam'): ?>
+                                <span style="color: #d97706; font-weight: bold;">Dipinjam</span>
+                            <?php else: ?>
+                                <span style="color: #059669; font-weight: bold;">Selesai</span>
+                            <?php endif; ?>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($riwayat)): ?>
-                    <tr>
-                        <td colspan="4">Belum ada riwayat peminjaman.</td>
-                    </tr>
-                    <?php else: ?>
-                        <?php foreach ($riwayat as $r): ?>
-                        <tr>
-                            <td><?php echo e($r['judul']); ?></td>
-                            <td><?php echo $r['tanggal_pinjam']; ?></td>
-                            <td><?php echo $r['tanggal_kembali'] ?? '-'; ?></td>
-                            <td><?php echo $r['status'] === 'dipinjam' ? 'Dipinjam' : 'Selesai'; ?></td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-            </div>
+                <?php endforeach; ?>
             <?php endif; ?>
-        </section>
-<?php include __DIR__ . '/../includes/footer.php'; ?>
+        </tbody>
+    </table>
+</div>
+
+<?php require_once __DIR__ . '/../includes/footer.php'; ?>

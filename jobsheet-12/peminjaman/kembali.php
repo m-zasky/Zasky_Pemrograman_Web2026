@@ -1,78 +1,72 @@
 <?php
-require __DIR__ . '/../includes/auth.php';
-$page_title = "Pengembalian Buku";
-include __DIR__ . '/../includes/header.php';
-require __DIR__ . '/../includes/koneksi.php';
+require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/csrf.php';
+require_once __DIR__ . '/../includes/helpers.php';
+require_once __DIR__ . '/../includes/koneksi.php';
+require_once __DIR__ . '/../includes/header.php';
 
-$flash = $_SESSION['flash'] ?? null;
-unset($_SESSION['flash']);
+$page_title = "Pengembalian Alat";
 
-$keyword = trim($_GET['q'] ?? '');
+// Query daftar alat yang sedang dipinjam
+$sql = "SELECT p.id, py.kode_penyewa, py.nama_lengkap, a.nama_alat, p.tanggal_pinjam 
+        FROM peminjaman p
+        JOIN penyewa py ON p.id_penyewa = py.id
+        JOIN alat a ON p.id_alat = a.id
+        WHERE p.status = 'dipinjam'
+        ORDER BY p.tanggal_pinjam DESC";
 
-$sqlDasar = "SELECT p.id, b.judul, a.nama, p.tanggal_pinjam
-             FROM peminjaman p
-             JOIN buku b ON b.id = p.buku_id
-             JOIN anggota a ON a.id = p.anggota_id
-             WHERE p.status = 'dipinjam'";
-
-if ($keyword !== '') {
-    $stmt = $pdo->prepare($sqlDasar . " AND (b.judul ILIKE :kw OR a.nama ILIKE :kw) ORDER BY p.tanggal_pinjam");
-    $stmt->execute(['kw' => '%' . $keyword . '%']);
-} else {
-    $stmt = $pdo->query($sqlDasar . " ORDER BY p.tanggal_pinjam");
-}
-$daftarAktif = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$stmt = $pdo->query($sql);
+$peminjaman_list = $stmt->fetchAll();
 ?>
-        <section>
-            <h2>Pengembalian Buku</h2>
 
-            <?php if ($flash): ?>
-                <p class="flash flash-<?php echo $flash['type']; ?>"><?php echo e($flash['pesan']); ?></p>
+<div class="card">
+    <h2>Pengembalian Alat Outdoor</h2>
+    <p class="subtitle">Daftar transaksi sewa yang masih aktif (belum dikembalikan).</p>
+    <hr class="divider">
+
+    <?php if (isset($_SESSION['flash'])): ?>
+        <div class="flash flash-<?php echo $_SESSION['flash']['type']; ?>">
+            <?php echo e($_SESSION['flash']['pesan']); ?>
+        </div>
+        <?php unset($_SESSION['flash']); ?>
+    <?php endif; ?>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Kode Penyewa</th>
+                <th>Nama Penyewa</th>
+                <th>Nama Alat</th>
+                <th>Tgl Pinjam</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (empty($peminjaman_list)): ?>
+                <tr>
+                    <td colspan="6" style="text-align: center;">Tidak ada alat yang sedang dipinjam saat ini.</td>
+                </tr>
+            <?php else: ?>
+                <?php foreach ($peminjaman_list as $index => $item): ?>
+                    <tr>
+                        <td><?php echo $index + 1; ?></td>
+                        <td><?php echo e($item['kode_penyewa']); ?></td>
+                        <td><?php echo e($item['nama_lengkap']); ?></td>
+                        <td><?php echo e($item['nama_alat']); ?></td>
+                        <td><?php echo e($item['tanggal_pinjam']); ?></td>
+                        <td>
+                            <form method="post" action="proses_kembali.php" style="display:inline;">
+                                <?php echo csrf_field(); ?>
+                                <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
+                                <button type="submit" class="btn-submit" onclick="return confirm('Proses pengembalian alat ini?')">Kembalikan</button>
+                            </form>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
             <?php endif; ?>
+        </tbody>
+    </table>
+</div>
 
-            <div class="search-box">
-                <form method="get" action="kembali.php">
-                    <span>
-                        <label for="search-input">Cari anggota/buku</label><br>
-                        <input type="text" id="search-input" name="q" value="<?php echo e($keyword); ?>" placeholder="Nama anggota atau judul buku...">
-                    </span>
-                    <button type="submit">Cari</button>
-                </form>
-            </div>
-
-            <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Anggota</th>
-                        <th>Buku</th>
-                        <th>Tgl Pinjam</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($daftarAktif)): ?>
-                    <tr>
-                        <td colspan="4">Tidak ada peminjaman aktif.</td>
-                    </tr>
-                    <?php else: ?>
-                        <?php foreach ($daftarAktif as $trx): ?>
-                        <tr>
-                            <td><?php echo e($trx['nama']); ?></td>
-                            <td><?php echo e($trx['judul']); ?></td>
-                            <td><?php echo $trx['tanggal_pinjam']; ?></td>
-                            <td>
-                                <form method="post" action="proses_kembali.php">
-                                    <?php echo csrf_field(); ?>
-                                    <input type="hidden" name="id" value="<?php echo $trx['id']; ?>">
-                                    <button type="submit">Kembalikan</button>
-                                </form>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-            </div>
-        </section>
-<?php include __DIR__ . '/../includes/footer.php'; ?>
+<?php require_once __DIR__ . '/../includes/footer.php'; ?>
