@@ -1,17 +1,29 @@
-# Jobsheet 5 — JavaScript DOM & Event
+# Jobsheet 6 — Fetch API & JSON
 
-Sub-CPMK: Menerapkan manipulasi DOM & event JavaScript.
+Sub-CPMK: Menerapkan komunikasi asinkron (AJAX/fetch, JSON).
 
-## Perubahan dari Jobsheet 4
-- Tambah `assets/js/app.js`.
-- Hamburger menu: checkbox hack (CSS) diganti tombol + JS (`nav.classList.toggle("nav-open")`).
-- Form Tambah Buku & Tambah Anggota: validasi client-side (`initValidasiForm`) — field wajib, rentang tahun, stok non-negatif — pesan error tampil inline via manipulasi DOM (`insertAdjacentElement`).
-- Tabel Daftar Buku & Daftar Anggota: kolom pencarian real-time (`initTableFilter`) yang menyaring baris via `keyup`.
-- Tombol Hapus (`.btn-hapus`): menampilkan `confirm()` lalu menghapus baris dari tampilan (masih front-end saja, belum ke server).
+## Perubahan dari Jobsheet 5
+
+- Tambah `data/alat.json` (10 objek) dan `data/penyewa.json` (4 objek) sebagai pengganti sementara API sungguhan.
+- `alat/list.html` & `penyewa/list.html`: `<tbody>` dikosongkan; baris dirender dinamis oleh `assets/js/alat.js` / `assets/js/penyewa.js` memakai `fetch` + `async/await`.
+- Tambah `#loading-indicator` yang tampil selama fetch (jeda simulasi 600 ms, `DELAY_SIMULASI_MS` di `app.js`).
+- Tambah tombol **Muat Ulang** di halaman Data Alat.
+- Error handling `try/catch/finally`: pesan gagal tampil di dalam tabel.
+- `app.js`: tambah `muatDataGenerik()` (loader generik) dan `terapkanFilter()`; pencarian, counter, dan nomor urut tetap bekerja pada baris hasil fetch.
+- `style.css`: hanya ditambah style `.loading-indicator`, `.btn:disabled`, dan perataan tombol di `.search-box`.
+- Placeholder form tambah disesuaikan dengan data baru (`ALT011`, `PL005`).
 
 ## Cara menjalankan
-Buka `index.html` di browser. Coba: submit form kosong (muncul error), ketik di kolom cari (tabel tersaring), klik Hapus (muncul konfirmasi).
+
+**Penting:** `fetch()` ke file lokal diblokir browser bila dibuka lewat `file://`. Jalankan lewat server lokal, misalnya:
+
+```bash
+php -S localhost:8000
+```
+
+lalu buka `http://localhost:8000/index.html`. Bisa juga memakai ekstensi "Live Server" di VSCode.
 
 ## Catatan
-- Validasi di sini murni client-side dan bisa dilewati (nonaktifkan JS). Validasi server-side ditambahkan di Jobsheet 7 sebagai lapisan kedua yang wajib.
-- Hapus baris di jobsheet ini hanya menghilangkan dari tampilan (belum persisten) — akan diganti proses hapus sungguhan ke database mulai Jobsheet 9.
+
+- Uji error handling dengan mengganti sementara nama file di `fetch(...)` (`alat.js` / `penyewa.js`) menjadi nama yang salah.
+- Pola `fetch` + `async/await` ini dipakai ulang saat memanggil endpoint PHP sungguhan di jobsheet berikutnya.

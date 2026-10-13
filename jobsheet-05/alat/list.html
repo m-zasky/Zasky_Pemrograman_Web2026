@@ -12,8 +12,8 @@
       <h1>Persewaan Alat Outdoor</h1>
       <p class="subtitle">Data Alat Outdoor</p>
     </div>
-    <button id="nav-toggle" class="nav-toggle-btn">&#9776;</button>
-    <nav>
+    <button type="button" id="nav-toggle-btn" class="nav-toggle-label" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="main-nav">&#9776;</button>
+    <nav id="main-nav">
       <ul>
         <li><a href="../index.html">Beranda</a></li>
         <li><a href="list.html" class="active">Data Alat</a></li>
@@ -29,14 +29,17 @@
       <h2 class="page-title">Daftar Alat Outdoor</h2>
       <div class="divider"></div>
 
-      <!-- Kotak Pencarian & Counter -->
       <div class="search-box">
-          <input type="text" id="search-input" placeholder="Cari data alat...">
+        <label for="search-input">Cari Nama Alat</label>
+        <input type="text" id="search-input" class="form-control" placeholder="Ketik nama alat...">
+        <p id="table-counter" class="table-counter" data-label="alat"></p>
       </div>
-      <span id="table-counter"></span>
+
+      <!-- [BARU J6] Tampil saat fetch berjalan, disembunyikan oleh app.js setelah selesai -->
+      <p id="loading-indicator" class="loading-indicator" style="display:none;">Memuat data...</p>
 
       <div class="table-responsive">
-        <table>
+        <table data-kolom-nama="2">
           <thead>
             <tr>
               <th>No</th>
@@ -49,30 +52,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>ALT001</td>
-              <td>Tenda Dome 4 Person Eiger</td>
-              <td>Tenda</td>
-              <td>Rp 45.000</td>
-              <td>5</td>
-              <td>
-                <button type="button" class="btn-action btn-edit">Edit</button>
-                <button type="button" class="btn-action btn-hapus">Hapus</button>
-              </td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>ALT002</td>
-              <td>Carrier Consina 60L</td>
-              <td>Tas / Carrier</td>
-              <td>Rp 30.000</td>
-              <td>3</td>
-              <td>
-                <button type="button" class="btn-action btn-edit">Edit</button>
-                <button type="button" class="btn-action btn-hapus">Hapus</button>
-              </td>
-            </tr>
+            <!-- [UBAH J6] Baris diisi dinamis oleh assets/js/alat.js via fetch('../data/alat.json') -->
           </tbody>
         </table>
       </div>
@@ -84,5 +64,7 @@
   </footer>
 
   <script src="../assets/js/app.js"></script>
+  <!-- [BARU J6] Wajib setelah app.js karena memakai muatDataGenerik() -->
+  <script src="../assets/js/alat.js"></script>
 </body>
 </html>

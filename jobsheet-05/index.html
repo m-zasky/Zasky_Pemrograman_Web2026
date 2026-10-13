@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Persewaan Alat Outdoor</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
+
 <body>
   <header>
     <div class="header-banner">
       <h1>Persewaan Alat Outdoor</h1>
       <p class="subtitle">Web Pengelola Data Persewaan Alat Outdoor</p>
     </div>
-    <!-- Tombol Hamburger JS -->
-    <button id="nav-toggle" class="nav-toggle-btn">&#9776;</button>
-    <nav>
+    <!-- [UBAH J5] checkbox + label diganti <button>, dikendalikan app.js -->
+    <button type="button" id="nav-toggle-btn" class="nav-toggle-label" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="main-nav">&#9776;</button>
+    <nav id="main-nav">
       <ul>
         <li><a href="index.html" class="active">Beranda</a></li>
         <li><a href="alat/list.html">Data Alat</a></li>
@@ -29,7 +31,9 @@
     <section class="card-container">
       <h2 class="page-title">Dashboard</h2>
       <p class="page-subtitle">Selamat Datang di Web Pengelola Data Persewaan Alat Outdoor</p>
+
       <div class="divider"></div>
+
       <h3 class="section-title">Statistik Rental</h3>
       <div class="stat-grid">
         <article class="stat-card">
@@ -52,6 +56,8 @@
     <p>&copy; 2026 Sistem Informasi Rental Outdoor</p>
   </footer>
 
+  <!-- [BARU J5] JavaScript dimuat di akhir body -->
   <script src="assets/js/app.js"></script>
 </body>
+
 </html>

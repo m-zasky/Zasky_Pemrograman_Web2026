@@ -12,9 +12,8 @@
       <h1>Persewaan Alat Outdoor</h1>
       <p class="subtitle">Data Penyewa / Member Rental</p>
     </div>
-    <!-- Tombol Hamburger JS -->
-    <button id="nav-toggle" class="nav-toggle-btn">&#9776;</button>
-    <nav>
+    <button type="button" id="nav-toggle-btn" class="nav-toggle-label" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="main-nav">&#9776;</button>
+    <nav id="main-nav">
       <ul>
         <li><a href="../index.html">Beranda</a></li>
         <li><a href="../alat/list.html">Data Alat</a></li>
@@ -30,14 +29,17 @@
       <h2 class="page-title">Daftar Penyewa Rental Outdoor</h2>
       <div class="divider"></div>
 
-      <!-- Kotak Pencarian & Counter Tabel -->
       <div class="search-box">
-          <input type="text" id="search-input" placeholder="Cari nama penyewa / alamat...">
+        <label for="search-input">Cari Nama Penyewa</label>
+        <input type="text" id="search-input" class="form-control" placeholder="Ketik nama penyewa...">
+        <p id="table-counter" class="table-counter" data-label="penyewa"></p>
       </div>
-      <span id="table-counter"></span>
+
+      <!-- [BARU J6] Tampil saat fetch berjalan, disembunyikan oleh app.js setelah selesai -->
+      <p id="loading-indicator" class="loading-indicator" style="display:none;">Memuat data...</p>
 
       <div class="table-responsive">
-        <table>
+        <table data-kolom-nama="2">
           <thead>
             <tr>
               <th>No</th>
@@ -50,30 +52,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>PL001</td>
-              <td>Farelyan Hilmy</td>
-              <td>0812xxxx</td>
-              <td>Kediri</td>
-              <td>Member VIP</td>
-              <td>
-                <button type="button" class="btn-action btn-edit">Edit</button>
-                <button type="button" class="btn-action btn-hapus">Hapus</button>
-              </td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>PL002</td>
-              <td>Fakhri Fawaz</td>
-              <td>0813xxxx</td>
-              <td>Pasuruan</td>
-              <td>Regular</td>
-              <td>
-                <button type="button" class="btn-action btn-edit">Edit</button>
-                <button type="button" class="btn-action btn-hapus">Hapus</button>
-              </td>
-            </tr>
+            <!-- [UBAH J6] Baris diisi dinamis oleh assets/js/penyewa.js via fetch('../data/penyewa.json') -->
           </tbody>
         </table>
       </div>
@@ -84,7 +63,8 @@
     <p>&copy; 2026 Sistem Informasi Rental Outdoor</p>
   </footer>
 
-  <!-- Menghubungkan file JS -->
   <script src="../assets/js/app.js"></script>
+  <!-- [BARU J6] Wajib setelah app.js karena memakai muatDataGenerik() -->
+  <script src="../assets/js/penyewa.js"></script>
 </body>
 </html>

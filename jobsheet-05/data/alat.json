@@ -1,0 +1,12 @@
+[
+    { "kode_alat": "ALT001", "nama_alat": "Tenda Dome 4 Person Eiger", "kategori": "Tenda", "tarif": 45000, "stok": 5 },
+    { "kode_alat": "ALT002", "nama_alat": "Carrier Consina 60L", "kategori": "Tas / Carrier", "tarif": 30000, "stok": 3 },
+    { "kode_alat": "ALT003", "nama_alat": "Kompor Portable", "kategori": "Alat Masak", "tarif": 20000, "stok": 6 },
+    { "kode_alat": "ALT004", "nama_alat": "Sleeping Bag Polar", "kategori": "Perlengkapan Tidur", "tarif": 15000, "stok": 8 },
+    { "kode_alat": "ALT005", "nama_alat": "Headlamp 200 Lumen", "kategori": "Penerangan", "tarif": 10000, "stok": 0 },
+    { "kode_alat": "ALT006", "nama_alat": "Tenda Dome 2 Person", "kategori": "Tenda", "tarif": 35000, "stok": 4 },
+    { "kode_alat": "ALT007", "nama_alat": "Carrier Eiger 45L", "kategori": "Tas / Carrier", "tarif": 25000, "stok": 2 },
+    { "kode_alat": "ALT008", "nama_alat": "Nesting Set Cookware", "kategori": "Alat Masak", "tarif": 12000, "stok": 5 },
+    { "kode_alat": "ALT009", "nama_alat": "Matras Gulung", "kategori": "Perlengkapan Tidur", "tarif": 8000, "stok": 10 },
+    { "kode_alat": "ALT010", "nama_alat": "Lampu Tenda LED", "kategori": "Penerangan", "tarif": 7000, "stok": 0 }
+]

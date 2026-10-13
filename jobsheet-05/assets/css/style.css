@@ -107,19 +107,22 @@ nav a.active {
     border-radius: 0;
 }
 
-/* ===== Hamburger Menu Setup ===== */
-.nav-toggle {
-    display: none;
-}
-
+/* ===== Hamburger Menu (JS-driven, Jobsheet 5) =====
+   [UBAH] Dulu <label> + checkbox hack (.nav-toggle). Sekarang <button>
+   yang diklik lewat app.js (toggle class .nav-open pada <nav>). */
 .nav-toggle-label {
     display: none;
+    /* tampil hanya di layar kecil (lihat media query) */
+    width: 100%;
+    font-family: inherit;
     font-size: 1.6rem;
+    line-height: 1.6;
     color: #ffffff;
     cursor: pointer;
     padding: 0.5rem 1.5rem;
     background-color: var(--bg-nav);
     text-align: right;
+    border: none;
     border-bottom: 2px solid var(--accent-gold);
 }
 
@@ -195,6 +198,48 @@ main {
     font-weight: 800;
     color: var(--bg-dark);
     line-height: 1;
+}
+
+/* ===== Kolom Pencarian & Penghitung Baris (Jobsheet 5) [BARU] ===== */
+.search-box {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-top: 1rem;
+}
+
+.search-box label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--bg-dark);
+}
+
+.search-box .form-control {
+    max-width: 320px;
+}
+
+.table-counter {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* [BARU J6] Tombol Muat Ulang di dalam search-box tidak melebar penuh */
+.search-box .btn {
+    align-self: flex-start;
+}
+
+/* [BARU J6] Teks "Memuat data..." saat fetch berjalan */
+.loading-indicator {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--text-muted);
+}
+
+/* [BARU J6] Tombol yang sedang dinonaktifkan (mis. Muat Ulang saat loading) */
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 /* ===== Tabel Styling ===== */
@@ -304,6 +349,17 @@ form {
     background-color: #ffffff;
 }
 
+/* ===== Pesan Error Validasi (Jobsheet 5) [BARU] ===== */
+.error {
+    display: block;
+    color: var(--btn-hapus);
+    font-size: 0.85rem;
+}
+
+.form-control.is-invalid {
+    border-color: var(--btn-hapus);
+}
+
 .radio-group {
     display: flex;
     gap: 1.5rem;
@@ -364,13 +420,27 @@ footer {
         display: block;
     }
 
+    /* [UBAH] Dulu display:none/block (checkbox). Sekarang menu menutup dengan
+       max-height + opacity agar bisa beranimasi. visibility:hidden menjaga
+       link tidak bisa difokus lewat keyboard saat menu tertutup. */
     nav {
-        display: none;
         width: 100%;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        visibility: hidden;
+        border-top: none;
+        border-bottom: none;
+        transition: max-height 0.4s ease, opacity 0.3s ease, visibility 0s linear 0.4s;
     }
 
-    .nav-toggle:checked~nav {
-        display: block;
+    /* Class ini di-toggle oleh app.js saat tombol hamburger diklik */
+    nav.nav-open {
+        max-height: 400px;
+        opacity: 1;
+        visibility: visible;
+        border-bottom: 2px solid var(--accent-gold);
+        transition: max-height 0.4s ease, opacity 0.3s ease, visibility 0s;
     }
 
     nav ul {
@@ -393,6 +463,10 @@ footer {
     .stat-grid {
         grid-template-columns: 1fr;
     }
+
+    .search-box .form-control {
+        max-width: 100%;
+    }
 }
 
 /* ===== Style Elemen Pre & Code (Scroll Test) ===== */
@@ -405,85 +479,4 @@ pre {
     font-size: 0.88rem;
     line-height: 1.5;
     border-left: 4px solid var(--accent-gold);
-}
-
-
-/* =========================================
-   TAMBAHAN FITUR JS JOBSHEET 5 (AMAN & NETRAL)
-========================================= */
-
-/* Pesan Error Validasi Form */
-.error {
-    display: block;
-    color: #d9534f;
-    font-size: 0.85rem;
-    margin-top: 0.3rem;
-    font-weight: 500;
-}
-
-/* Kolom Pencarian & Counter Tabel */
-.search-box {
-    margin-bottom: 0.5rem;
-}
-
-.search-box input {
-    width: 100%;
-    max-width: 300px;
-    padding: 0.5rem 0.75rem;
-    border: 1px solid #cdd4da;
-    border-radius: 4px;
-    font-family: inherit;
-}
-
-#table-counter {
-    display: block;
-    margin-bottom: 1rem;
-    font-size: 0.85rem;
-    color: #666;
-    font-style: italic;
-}
-
-/* Tombol Menu Hamburger JS */
-.nav-toggle-btn {
-    display: none;
-    font-size: 1.6rem;
-    color: #fff;
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-/* Sembunyikan checkbox lama */
-.nav-toggle, .nav-toggle-label {
-    display: none !important;
-}
-
-@media (max-width: 480px) {
-    header {
-        position: relative;
-    }
-
-    .nav-toggle-btn {
-        display: block;
-    }
-
-    header nav {
-        width: 100%;
-        order: 3;
-        max-height: 0;
-        opacity: 0;
-        overflow: hidden;
-        transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease;
-    }
-
-    header nav.nav-open {
-        max-height: 300px;
-        opacity: 1;
-        margin-top: 1rem;
-    }
-
-    header nav ul {
-        flex-direction: column;
-        gap: 0.75rem;
-    }
 }

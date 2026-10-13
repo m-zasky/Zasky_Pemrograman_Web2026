@@ -12,9 +12,9 @@
       <h1>Persewaan Alat Outdoor</h1>
       <p class="subtitle">Tambah Data Penyewa Baru</p>
     </div>
-    <!-- Tombol Hamburger JS -->
-    <button id="nav-toggle" class="nav-toggle-btn">&#9776;</button>
-    <nav>
+    <!-- [UBAH J5] hamburger berbasis JS -->
+    <button type="button" id="nav-toggle-btn" class="nav-toggle-label" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="main-nav">&#9776;</button>
+    <nav id="main-nav">
       <ul>
         <li><a href="../index.html">Beranda</a></li>
         <li><a href="../alat/list.html">Data Alat</a></li>
@@ -30,16 +30,19 @@
       <h2 class="page-title">Formulir Tambah Penyewa</h2>
       <div class="divider"></div>
 
-      <!-- id="form-tambah" wajib ada agar terdeteksi oleh validasi JS -->
+      <!-- [UBAH J5] Ditambah id="form-tambah" agar dikenali app.js untuk validasi.
+           Tetap tanpa method (default GET). -->
       <form id="form-tambah">
         <div class="form-group">
-          <label for="kode_penyewa">ID Penyewa:</label>
-          <input type="text" id="kode_penyewa" name="kode_penyewa" class="form-control" placeholder="Contoh: PLG003" required>
+          <!-- [PERBAIKAN] "ID Penyewa" -> "Kode Penyewa", placeholder PLG003 -> PL005 (PL001-PL004 sudah ada di data)
+               agar sama dengan kolom & format kode di tabel (PL001, PL002, PL003) -->
+          <label for="kode_penyewa">Kode Penyewa:</label>
+          <input type="text" id="kode_penyewa" name="kode_penyewa" class="form-control" placeholder="Contoh: PL005" required>
         </div>
 
         <div class="form-group">
           <label for="nama_lengkap">Nama Lengkap:</label>
-          <input type="text" id="nama_lengkap" name="nama_lengkap" class="form-control" placeholder="Contoh: Budi Santoso" required>
+          <input type="text" id="nama_lengkap" name="nama_lengkap" class="form-control" placeholder="Contoh: Rina Wulandari" required>
         </div>
 
         <div class="form-group">
@@ -64,7 +67,7 @@
     <p>&copy; 2026 Sistem Informasi Rental Outdoor</p>
   </footer>
 
-  <!-- Menghubungkan file JS -->
+  <!-- [BARU J5] -->
   <script src="../assets/js/app.js"></script>
 </body>
 </html>

@@ -1,0 +1,6 @@
+[
+    { "kode_penyewa": "PL001", "nama_penyewa": "Farelyan Hilmy", "no_wa": "0812xxxx", "alamat": "Kediri", "status_member": "Member VIP" },
+    { "kode_penyewa": "PL002", "nama_penyewa": "Fakhri Fawaz", "no_wa": "0813xxxx", "alamat": "Pasuruan", "status_member": "Regular" },
+    { "kode_penyewa": "PL003", "nama_penyewa": "Budi Santoso", "no_wa": "0821xxxx", "alamat": "Surabaya", "status_member": "Regular" },
+    { "kode_penyewa": "PL004", "nama_penyewa": "Salsabila Putri", "no_wa": "0856xxxx", "alamat": "Malang", "status_member": "Member VIP" }
+]
