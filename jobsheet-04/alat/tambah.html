@@ -30,20 +30,22 @@
       <h2 class="page-title">Formulir Tambah Alat Outdoor</h2>
       <div class="divider"></div>
 
-      <form action="#" method="POST">
+      <!-- Tag form polosan tanpa method, agar default GET seperti SIMPUS -->
+      <form>
         <div class="form-group">
           <label for="kode_alat">Kode Alat:</label>
-          <input type="text" id="kode_alat" class="form-control" placeholder="Contoh: ALT006" required>
+          <!-- Ditambahkan atribut name -->
+          <input type="text" id="kode_alat" name="kode_alat" class="form-control" placeholder="Contoh: ALT006" required>
         </div>
 
         <div class="form-group">
           <label for="nama_alat">Nama Alat:</label>
-          <input type="text" id="nama_alat" class="form-control" placeholder="Contoh: Tenda Dome 2 Person" required>
+          <input type="text" id="nama_alat" name="nama_alat" class="form-control" placeholder="Contoh: Tenda Dome 2 Person" required>
         </div>
 
         <div class="form-group">
           <label for="kategori">Kategori:</label>
-          <select id="kategori" class="form-control" required>
+          <select id="kategori" name="kategori" class="form-control" required>
             <option value="">-- Pilih Kategori --</option>
             <option value="tenda">Tenda</option>
             <option value="carrier">Tas / Carrier</option>
@@ -55,12 +57,12 @@
 
         <div class="form-group">
           <label for="tarif">Tarif / Hari (RP):</label>
-          <input type="number" id="tarif" class="form-control" placeholder="Contoh: 35000" required>
+          <input type="number" id="tarif" name="tarif" class="form-control" placeholder="Contoh: 35000" required>
         </div>
 
         <div class="form-group">
           <label for="stok">Stok Alat:</label>
-          <input type="number" id="stok" class="form-control" placeholder="Contoh: 5" min="0" required>
+          <input type="number" id="stok" name="stok" class="form-control" placeholder="Contoh: 5" min="0" required>
         </div>
 
         <div class="button-group">
