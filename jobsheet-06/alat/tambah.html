@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Persewaan Alat Outdoor</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+  <header>
+    <div class="header-banner">
+      <h1>Persewaan Alat Outdoor</h1>
+      <p class="subtitle">Tambah Data Alat Outdoor</p>
+    </div>
+    <!-- [UBAH J5] hamburger berbasis JS -->
+    <button type="button" id="nav-toggle-btn" class="nav-toggle-label" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="main-nav">&#9776;</button>
+    <nav id="main-nav">
+      <ul>
+        <li><a href="../index.html">Beranda</a></li>
+        <li><a href="list.html">Data Alat</a></li>
+        <li><a href="tambah.html" class="active">Tambah Alat</a></li>
+        <li><a href="../penyewa/list.html">Data Penyewa</a></li>
+        <li><a href="../penyewa/tambah.html">Tambah Penyewa</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="card-container">
+      <h2 class="page-title">Formulir Tambah Alat Outdoor</h2>
+      <div class="divider"></div>
+
+      <!-- [UBAH J5] Ditambah id="form-tambah" agar dikenali app.js untuk validasi.
+           Tetap tanpa method (default GET). -->
+      <form id="form-tambah">
+        <div class="form-group">
+          <label for="kode_alat">Kode Alat:</label>
+          <input type="text" id="kode_alat" name="kode_alat" class="form-control" placeholder="Contoh: ALT011" required>
+        </div>
+
+        <div class="form-group">
+          <label for="nama_alat">Nama Alat:</label>
+          <input type="text" id="nama_alat" name="nama_alat" class="form-control" placeholder="Contoh: Hammock Ringan" required>
+        </div>
+
+        <div class="form-group">
+          <label for="kategori">Kategori:</label>
+          <select id="kategori" name="kategori" class="form-control" required>
+            <option value="">-- Pilih Kategori --</option>
+            <option value="tenda">Tenda</option>
+            <option value="carrier">Tas / Carrier</option>
+            <option value="masak">Alat Masak</option>
+            <option value="tidur">Perlengkapan Tidur</option>
+            <option value="penerangan">Penerangan</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <!-- [PERBAIKAN] "(RP)" -> "(Rp)"; ditambah min="1" -->
+          <label for="tarif">Tarif / Hari (Rp):</label>
+          <input type="number" id="tarif" name="tarif" class="form-control" placeholder="Contoh: 35000" min="1" required>
+        </div>
+
+        <div class="form-group">
+          <label for="stok">Stok Alat:</label>
+          <input type="number" id="stok" name="stok" class="form-control" placeholder="Contoh: 5" min="0" required>
+        </div>
+
+        <div class="button-group">
+          <button type="submit" class="btn btn-primary">Simpan Data</button>
+          <button type="reset" class="btn btn-secondary">Batal</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Sistem Informasi Rental Outdoor</p>
+  </footer>
+
+  <!-- [BARU J5] -->
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>

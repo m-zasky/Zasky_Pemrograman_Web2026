@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Persewaan Alat Outdoor</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+  <header>
+    <div class="header-banner">
+      <h1>Persewaan Alat Outdoor</h1>
+      <p class="subtitle">Data Alat Outdoor</p>
+    </div>
+    <button id="nav-toggle" class="nav-toggle-btn">&#9776;</button>
+    <nav>
+      <ul>
+        <li><a href="../index.html">Beranda</a></li>
+        <li><a href="list.html" class="active">Data Alat</a></li>
+        <li><a href="tambah.html">Tambah Alat</a></li>
+        <li><a href="../penyewa/list.html">Data Penyewa</a></li>
+        <li><a href="../penyewa/tambah.html">Tambah Penyewa</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="card-container">
+      <h2 class="page-title">Daftar Alat Outdoor</h2>
+      <div class="divider"></div>
+
+      <!-- Kotak Pencarian & Counter -->
+      <div class="search-box">
+          <input type="text" id="search-input" placeholder="Cari data alat...">
+      </div>
+      <span id="table-counter"></span>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Kode Alat</th>
+              <th>Nama Alat</th>
+              <th>Kategori</th>
+              <th>Tarif / Hari</th>
+              <th>Stok</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>ALT001</td>
+              <td>Tenda Dome 4 Person Eiger</td>
+              <td>Tenda</td>
+              <td>Rp 45.000</td>
+              <td>5</td>
+              <td>
+                <button type="button" class="btn-action btn-edit">Edit</button>
+                <button type="button" class="btn-action btn-hapus">Hapus</button>
+              </td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>ALT002</td>
+              <td>Carrier Consina 60L</td>
+              <td>Tas / Carrier</td>
+              <td>Rp 30.000</td>
+              <td>3</td>
+              <td>
+                <button type="button" class="btn-action btn-edit">Edit</button>
+                <button type="button" class="btn-action btn-hapus">Hapus</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Sistem Informasi Rental Outdoor</p>
+  </footer>
+
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>

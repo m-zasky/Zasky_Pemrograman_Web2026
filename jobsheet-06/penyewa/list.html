@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Persewaan Alat Outdoor</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+  <header>
+    <div class="header-banner">
+      <h1>Persewaan Alat Outdoor</h1>
+      <p class="subtitle">Data Penyewa / Member Rental</p>
+    </div>
+    <button type="button" id="nav-toggle-btn" class="nav-toggle-label" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="main-nav">&#9776;</button>
+    <nav id="main-nav">
+      <ul>
+        <li><a href="../index.html">Beranda</a></li>
+        <li><a href="../alat/list.html">Data Alat</a></li>
+        <li><a href="../alat/tambah.html">Tambah Alat</a></li>
+        <li><a href="list.html" class="active">Data Penyewa</a></li>
+        <li><a href="tambah.html">Tambah Penyewa</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="card-container">
+      <h2 class="page-title">Daftar Penyewa Rental Outdoor</h2>
+      <div class="divider"></div>
+
+      <div class="search-box">
+        <label for="search-input">Cari Nama Penyewa</label>
+        <input type="text" id="search-input" class="form-control" placeholder="Ketik nama penyewa...">
+        <p id="table-counter" class="table-counter" data-label="penyewa"></p>
+      </div>
+
+      <!-- [BARU J6] Tampil saat fetch berjalan, disembunyikan oleh app.js setelah selesai -->
+      <p id="loading-indicator" class="loading-indicator" style="display:none;">Memuat data...</p>
+
+      <div class="table-responsive">
+        <table data-kolom-nama="2">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Kode Penyewa</th>
+              <th>Nama Penyewa</th>
+              <th>No WhatsApp</th>
+              <th>Alamat</th>
+              <th>Status Member</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- [UBAH J6] Baris diisi dinamis oleh assets/js/penyewa.js via fetch('../data/penyewa.json') -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Sistem Informasi Rental Outdoor</p>
+  </footer>
+
+  <script src="../assets/js/app.js"></script>
+  <!-- [BARU J6] Wajib setelah app.js karena memakai muatDataGenerik() -->
+  <script src="../assets/js/penyewa.js"></script>
+</body>
+</html>
