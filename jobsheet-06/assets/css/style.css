@@ -223,23 +223,12 @@ main {
     color: var(--text-muted);
 }
 
-/* [BARU J6] Tombol Muat Ulang di dalam search-box tidak melebar penuh */
-.search-box .btn {
-    align-self: flex-start;
-}
-
 /* [BARU J6] Teks "Memuat data..." saat fetch berjalan */
 .loading-indicator {
     margin-top: 1rem;
     font-size: 0.9rem;
     font-style: italic;
     color: var(--text-muted);
-}
-
-/* [BARU J6] Tombol yang sedang dinonaktifkan (mis. Muat Ulang saat loading) */
-.btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
 }
 
 /* ===== Tabel Styling ===== */

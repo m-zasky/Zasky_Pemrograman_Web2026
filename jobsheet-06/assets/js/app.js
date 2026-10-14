@@ -1,17 +1,11 @@
 // =====================================================================
 // app.js — Persewaan Alat Outdoor (Jobsheet 6: Fetch API & JSON)
 // Fitur Jobsheet 5 (hamburger, pencarian, counter, hapus, validasi) tetap ada.
-// Yang baru di Jobsheet 6: muatDataGenerik() — mengisi tabel dari file JSON.
+// Jobsheet 6: baris tabel kini diisi lewat fetch di alat.js / penyewa.js,
+// sehingga hapus memakai event delegation dan filter bisa dipanggil ulang
+// (terapkanFilter) setelah data selesai dimuat.
 // Dimuat di semua halaman; tiap fungsi berhenti sendiri bila elemennya tidak ada.
 // =====================================================================
-
-// Jeda buatan agar loading indicator terlihat (simulasi koneksi lambat).
-// Ubah ke 0 kalau sudah tidak dibutuhkan.
-const DELAY_SIMULASI_MS = 600;
-
-// Penanda "sedang memuat" supaya klik Muat Ulang berkali-kali tidak
-// membuat baris dobel.
-let sedangMemuat = false;
 
 // ===== 1. Hamburger menu (JS-driven) =====
 function initNavToggle() {
@@ -215,104 +209,6 @@ function initValidasiForm() {
     });
 }
 
-// =====================================================================
-// [BARU J6] 6. Memuat data dari JSON ke tabel (fetch + async/await)
-// Dipakai bersama oleh alat.js dan penyewa.js.
-//   urlJson    : lokasi file JSON, relatif terhadap halaman HTML
-//   keys       : daftar kunci objek JSON, urut sesuai kolom tabel
-//                (kolom "No" di depan & "Aksi" di belakang dibuat otomatis)
-//   formatters : (opsional) fungsi pengubah tampilan per kunci,
-//                mis. { tarif: formatRupiah }
-// =====================================================================
-function buatCell(teks) {
-    const td = document.createElement("td");
-    td.textContent = teks; // textContent (bukan innerHTML) -> aman dari injeksi HTML
-    return td;
-}
-
-function buatTombol(label, kelas) {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = kelas;
-    btn.textContent = label;
-    return btn;
-}
-
-function tampilkanPesanTabel(tbody, jumlahKolom, pesan) {
-    const tr = document.createElement("tr");
-    tr.className = "row-pesan";
-    const td = document.createElement("td");
-    td.colSpan = jumlahKolom;
-    td.textContent = pesan;
-    tr.appendChild(td);
-    tbody.appendChild(tr);
-}
-
-async function muatDataGenerik(urlJson, keys, formatters) {
-    formatters = formatters || {};
-    const table = getTable();
-    if (!table || sedangMemuat) return;
-
-    const tbody = table.querySelector("tbody");
-    const loading = document.getElementById("loading-indicator");
-    const btnReload = document.getElementById("btn-reload");
-    const counterEl = document.getElementById("table-counter");
-    const jumlahKolom = keys.length + 2; // No + data + Aksi
-
-    // --- Mulai: tampilkan loading, kosongkan tabel, kunci tombol reload ---
-    sedangMemuat = true;
-    if (loading) loading.style.display = "block";
-    if (btnReload) btnReload.disabled = true;
-    if (counterEl) counterEl.textContent = "";
-    tbody.innerHTML = "";
-
-    try {
-        await new Promise(function (resolve) { setTimeout(resolve, DELAY_SIMULASI_MS); });
-
-        const res = await fetch(urlJson);
-        if (!res.ok) {
-            throw new Error("Gagal mengambil data (status " + res.status + ")");
-        }
-        const dataList = await res.json();
-
-        if (dataList.length === 0) {
-            tampilkanPesanTabel(tbody, jumlahKolom, "Belum ada data.");
-        }
-
-        // Satu objek JSON -> satu baris <tr>
-        dataList.forEach(function (item, i) {
-            const tr = document.createElement("tr");
-            tr.appendChild(buatCell(i + 1));
-
-            keys.forEach(function (key) {
-                const nilai = item[key] ?? "";
-                const format = formatters[key];
-                tr.appendChild(buatCell(format ? format(nilai) : nilai));
-            });
-
-            // Kolom Aksi — memakai class tombol yang sudah ada di style.css
-            const tdAksi = document.createElement("td");
-            tdAksi.appendChild(buatTombol("Edit", "btn-action btn-edit"));
-            tdAksi.appendChild(buatTombol("Hapus", "btn-action btn-hapus"));
-            tr.appendChild(tdAksi);
-
-            tbody.appendChild(tr);
-        });
-    } catch (err) {
-        let pesan = "Gagal memuat data: " + err.message;
-        if (location.protocol === "file:") {
-            pesan += ". Buka lewat server lokal (mis. Live Server), bukan file://.";
-        }
-        tampilkanPesanTabel(tbody, jumlahKolom, pesan);
-    } finally {
-        // --- Selesai (sukses maupun gagal) ---
-        sedangMemuat = false;
-        if (loading) loading.style.display = "none";
-        if (btnReload) btnReload.disabled = false;
-        terapkanFilter(); // terapkan kata kunci pencarian + perbarui counter
-    }
-}
-
 // ===== Jalankan semua setelah HTML selesai dimuat =====
 document.addEventListener("DOMContentLoaded", function () {
     initNavToggle();
@@ -320,5 +216,5 @@ document.addEventListener("DOMContentLoaded", function () {
     initTableFilter();
     initValidasiForm();
     // updateCounter() tidak dipanggil di sini: tabel masih kosong sampai fetch selesai.
-    // Counter diperbarui oleh muatDataGenerik().
+    // Counter diperbarui lewat terapkanFilter() di alat.js / penyewa.js.
 });
