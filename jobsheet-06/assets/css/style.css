@@ -469,19 +469,3 @@ pre {
     line-height: 1.5;
     border-left: 4px solid var(--accent-gold);
 }
-
-@media (max-width: 480px) {
-    /* Hanya tulis elemen yang ingin diubah ukurannya agar muat di HP kecil */
-    
-    .card-container {
-        padding: 0.75rem; /* Mengecilkan padding karena layar HP sangat terbatas */
-    }
-
-    nav a {
-        padding: 0.5rem 0.75rem; /* Mengecilkan area klik menu */
-        font-size: 0.9rem; /* Mengecilkan ukuran font menu */
-    }
-
-    /* TIDAK PERLU menulis ulang logika hamburger menu di sini, 
-       karena akan otomatis mewarisi (cascade) dari aturan 768px di atasnya */
-}
